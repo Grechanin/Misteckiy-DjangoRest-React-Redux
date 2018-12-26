@@ -1,0 +1,125 @@
+{% extends "base.html"%}
+{% block title %} Перевірка замовлення || {{ block.super}} {% endblock %}
+{% block content %}
+<div class="page__container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+            {% if products_in_basket %}
+                <form method="post" class="text-center checkout-form">{% csrf_token %}
+                    <div class="order-contacts">
+                        <h2 class="text-center">Контактні данні</h2>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {% if form.errors.name %}                
+                                    <input id="client-name" type="text" placeholder="Ім'я обов'язкове" class="form-control checkout-form-input" name="{{ form.name.html_name }}" value="{{ request.POST.name }}" style="border-color: red; margin-bottom: 5px;">
+                                {% else %}
+                                    <input id="client-name" type="text" placeholder="Ім'я" class="form-control checkout-form-input" name="{{ form.name.html_name }}" value="{{ request.POST.name }}">
+                                {% endif %}
+
+                                {% if form.errors.phone %}
+                                    <input id="phone" type="text" placeholder="Телефон обов'язковий" class="form-control checkout-form-input" name="{{ form.phone.html_name }}" value="{{ request.POST.phone }}" style="border-color: red; margin-bottom: 5px;">
+                                    <span>Введіть вірний номер</span>
+                                {% else %}
+                                    <input id="phone" type="text" placeholder="Телефон" class="form-control checkout-form-input" name="{{ form.phone.html_name }}" value="{{ request.POST.phone }}">
+                                {% endif %}
+
+                                {% if form.errors.email %}
+                                    <input id="email" type="email" placeholder="Введіть вірний e-mail" class="form-control checkout-form-input" name="{{ form.email.html_name }}" value="{{ request.POST.email }}" style="border-color: red; margin-bottom: 5px;">
+                                    <span>Введіть вірний e-mail</span>
+                                {% else %}
+                                    <input id="email" type="email" placeholder="Е-mail" class="form-control checkout-form-input" name="{{ form.email.html_name }}" value="{{ request.POST.email }}">
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <textarea  id="comments" rows="5" placeholder="Коментар" class="form-control checkout-form-comment" name="{{ form.comments.html_name }}">{{ request.POST.comments }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-table">
+                        <h2 class="text-center">Товари в корзині</h2>
+                        <table class="table text-center">
+                            <thead>
+                            <tr>
+                                <th class="text-center">№ п/н</th>
+                                <th class="text-center">Фото товару</th>
+                                <th class="text-center">Назва товару</th>
+                                <th class="text-center">К-ть</th>
+                                <th class="text-center">Ціна за одиницю</th>
+                                <th class="text-center">Загальна ціна</th>
+                                <th class="text-center">Видалити</th>
+                            </tr>
+                            </thead>
+                            <tbody class="checkout-table-body">
+                            {% for product in products_in_basket %}
+                                <tr>
+                                    <td>{{  forloop.counter }}</td>
+                                    {% for img in product.product.gypsumimage_set.all %}
+                                      {% if forloop.first %}
+                                        <td>                               
+                                            <a data-fancybox="gallery" data-options='{"buttons": ["zoom", "close"]}' data-caption="{{ products_in_basket.name }}" href="{{ img.image.url }}" class="outline-focus-none">
+                                                <img class="checkout-img" src="{{ img.image_thumbnail.url }}" />
+                                            </a>
+                                        </td>  
+                                      {% endif %}
+                                    {% endfor %}
+                                    <td>{{ product.product.name }}</td>
+                                    <td><input type="text" value="{{ product.nmb }}" class="product-nmb-in-basket" name="product_nmb_in_basket_id_{{ product.id }}"></td>
+                                    <td><span class="product-price-pre-item">{{ product.price_pre_item }}</span></td>
+                                    <td>
+                                        <span class="total-product-price-in-basket">
+                                            {{ product.total_price }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a class="delete-item-checkout" href="#" data-product_id="{{ product.product.id }}"><span title="Видалити">X</span></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-right">
+                        <b>Загальна сума замовлення: <span id="total_order_amount"></span> грн</b>
+                    </div>
+                    <br>
+                    <div class="text-right">
+                        <button class="btn btn-success" style="margin-bottom: 30px;">Замовити</button>
+                    </div>
+                </form>
+            {% else %}
+                {% if title %}
+                    <h3 class="text-center checkout-title">{{ title }}</h3>
+                    {% if sub_title %}
+                        <h4 class="text-center">{{ sub_title }}</h4>
+                    {% endif %}
+                {% else %}
+                    <h3 class="text-center checkout-title">{{ title }}</h3>
+                {% endif %}
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+
+{% load static %}
+<script src="{% static 'js/intlTelInput.js' %}"></script>
+<script src="{% static 'js/utils.js' %}"></script>
+<script>
+    $("#phone").intlTelInput({placeholderNumberType: "off", initialCountry: "UA", preferredCountries: [] })
+    var countryData = $("#phone").intlTelInput("getSelectedCountryData");
+    var int_code = countryData.dialCode
+    $("#phone").intlTelInput("setNumber", "+"+int_code);
+
+    $("#phone").on("countrychange", function(e, countryData) {
+    var int_code = countryData.dialCode
+    $("#phone").intlTelInput("setNumber", "+"+int_code);
+    });
+</script>
+
+{% endblock script %}

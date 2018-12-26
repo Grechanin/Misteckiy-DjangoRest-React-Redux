@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block head_title %} {{ tab_title }} {% endblock %}
+
+
+{% block breadcrumb %}
+
+<div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Головна</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+    </ol>
+  </nav>
+</div>
+
+{% endblock breadcrumb %}
+
+
+
+
+
+
+{% block content %}
+
+        <div class="container main-background-color page__container margin-bottom-65px">
+        <div class="row">
+          <div class="col-md-12">
+                <h1 class="text-center page__title">{{ title }}</h1>
+                {% if short_description %}
+                <p>{{ short_description|safe }} </p>
+                {% endif %}
+                {% if description %}
+                <div class="content hideContent">
+                    <p>{{ description|safe }}</p>
+                </div>
+                <div class="show-more">
+                    <a href="#" class="more-link">Детальніше</a>
+                </div>
+                {% endif %}
+
+                {% if price_categorys %}
+                <ul class="nav nav-pills" id="pills-tab" role="tablist">
+
+                  {% for cat in price_categorys %}
+                    {% if forloop.first %}
+                    <li class="nav-item">
+                      <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#{{ cat.name }}" role="tab" aria-controls="pills-home" aria-selected="true">{{ cat.name }}</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#{{ cat.name }}" role="tab" aria-controls="pills-profile" aria-selected="false">{{ cat.name }}</a>
+                    </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+
+                <div class="tab-content" id="pills-tabContent">
+                  {% for cat in price_categorys %}
+
+                    {% if forloop.first %}
+                    <div class="tab-pane active" id="{{ cat.name }}" role="tabpanel" aria-labelledby="pills-home-tab">
+                      <div class="row">
+                      {% for des in price_category_description %}
+                        
+                        {% if des.category == cat %}
+                        <div class="col-md-6">
+                        <h3>{{ des.title }}</h3>
+                        <p>{{ des.description|safe }}</p>
+                        <a data-fancybox data-type="ajax" data-src="{% url 'prices:order' %}" href="javascript:;" data-service="{{ des.title }}" class="btn btn-primary btn-order">Замовити</a>
+                        </div>
+                        {% endif %}
+                        
+                      {% endfor %}
+                      </div>
+                    </div>
+
+                    {% else %}
+                    <div class="tab-pane" id="{{ cat.name }}" role="tabpanel" aria-labelledby="pills-profile-tab">
+                      <div class="row">
+                      {% for des in price_category_description %}
+                        
+                        {% if des.category == cat %}
+                        <div class="col-md-6">
+                        <h3>{{ des.title }}</h3>
+                        <p>{{ des.description|safe }}</p>
+                        <a data-fancybox data-type="ajax" data-src="{% url 'prices:order' %}" href="javascript:;" data-service="{{ des.title }}" class="btn btn-primary btn-order">Замовити</a>
+                        </div>
+                        {% endif %}
+                        
+
+                      {% endfor %}
+                      </div>
+                    </div>
+
+                    {% endif %}
+
+                  {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+          </div>
+        </div>
+
+
+
+{% endblock content %}
+
+{% block script %}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".btn-order").on("click", function(){
+      service = $(this).attr("data-service");
+    })
+  })
+</script>
+
+{% endblock script %}

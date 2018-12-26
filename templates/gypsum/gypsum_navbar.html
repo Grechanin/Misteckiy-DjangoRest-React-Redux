@@ -1,0 +1,12 @@
+<nav class="navbar navbar-expand-md sub-nav-bar-sticky main-background-color d-none d-md-block d-xl-block">
+  <div class="container">
+
+        <ul class="navbar-nav mx-auto">
+          {% for category in categories %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+    </div>
+  </nav>

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block head_title %} {{ tab_title }} {% endblock %}
+
+
+{% block breadcrumb %}
+
+<div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Головна</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+    </ol>
+  </nav>
+</div>
+
+{% endblock breadcrumb %}
+
+
+
+{% block content %}
+    <div class="page__container">
+        <div class="container">
+                  <!-- Example row of columns -->
+        <div class="row">
+          <div class="col-md-12">
+                <h1 class="text-center page__title">{{ title }}</h1>
+                {% if short_description %}
+                 {{ short_description|safe }}
+                {% endif %}
+                {% if description %}
+                <div class="content hideContent">
+                    <p>{{ description|safe }}</p>
+                </div>
+                <div class="show-more">
+                    <a href="#" class="more-link margin-bottom-65px">Детальніше</a>
+                </div>
+                {% endif %}
+
+          </div>
+        </div>
+
+        </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="gallery-col col-md-3 col-sm-6">
+          {% if imgs %}
+            {% for img in first_col %}
+              <div class="img-div">
+                <a data-fancybox="gallery" data-options='{"buttons": ["zoom", "slideShow", "fullScreen", "share","close"]}' data-caption="{{ img.project.name }}" href="{{ img.image.url }}" class="outline-focus-none">
+                  <img src="{{ img.image_thumbnail.url }}" alt="{{ img.image_thumbnail.name }}" class="outline-focus-none thumbnail-img img-fluid img-zoom">
+                </a>
+              </div>
+
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="gallery-col col-md-3 col-sm-6">
+          {% if imgs %}
+            {% for img in second_col %}
+              <div class="img-div">      
+                <a data-fancybox="gallery" data-options='{"buttons": ["zoom", "slideShow", "fullScreen", "share","close"]}' data-caption="{{ img.project.name }}" href="{{ img.image.url }}" class="outline-focus-none">
+                  <img src="{{ img.image_thumbnail.url }}" alt="{{ img.image_thumbnail.name }}" class="outline-focus-none thumbnail-img img-fluid img-zoom">
+                </a>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="gallery-col col-md-3 col-sm-6">
+          {% if imgs %}
+            {% for img in third_col %}  
+              <div class="img-div">   
+                <a data-fancybox="gallery" data-options='{"buttons": ["zoom", "slideShow", "fullScreen", "share","close"]}' data-caption="{{ img.project.name }}" href="{{ img.image.url }}" class="outline-focus-none">
+                  <img src="{{ img.image_thumbnail.url }}" alt="{{ img.image_thumbnail.name }}" class="outline-focus-none thumbnail-img img-fluid img-zoom">
+                </a>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="gallery-col col-md-3 col-sm-6">
+          {% if imgs %}
+            {% for img in fourth_col %}
+            <div class="img-div">
+              <a data-fancybox="gallery" data-options='{"buttons": ["zoom", "slideShow", "fullScreen", "share","close"]}' data-caption="{{ img.project.name }}" href="{{ img.image.url }}" class="outline-focus-none">
+                <img src="{{ img.image_thumbnail.url }}" alt="{{ img.project.name }}" class="outline-focus-none thumbnail-img img-fluid img-zoom">
+              </a>
+            </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+        
+
+{% endblock content %}

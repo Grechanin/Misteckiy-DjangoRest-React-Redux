@@ -1,0 +1,71 @@
+
+
+{% block content %}
+<!-- 
+	{% for obj in projects %}
+		{% if obj.category %}
+		<h1>Дизайн проект - {{ obj.name }}</h1>
+		<p>{{ obj.description }}</p>
+		{% if obj.is_main %}
+			<div class="product-img">
+				<img src="{{ obj.image.url }}" alt="{{ obj.project.name }}" class="img-fluid">
+			</div>
+		{% endif %}
+		{% endif %}
+	{% endfor %}
+
+ -->
+<div class="background-color-fbfbfb">
+<div class="container">
+<div class="section__title">Останні проекти</div>
+<div class="section__title-divider"></div>
+<div class="row">
+	{% for project in last_projects %}
+    <div class="col-md-4">
+      <div class="card mb-4 box-shadow">
+      	{% for obj in project.projectimage_set.all %}
+      	{% if obj.is_main %}
+        <div class="img-div">
+          <a href="{{ project.get_absolute_url }}">
+            <img class="card-img-top img-zoom" src="{{ obj.image.url }}" alt="Card image cap">
+          </a>
+        </div>
+        {% endif %}
+        {% endfor %}
+        <div class="card-body">
+          <a href="{{ project.get_absolute_url }}">{{ project.name }}</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+<!-- {% for project in last_projects %}
+    <div class="col-md-4">
+      <div class="card mb-4 box-shadow">
+        {% for obj in project.projectimage_set.all %}
+        {% if obj.is_main %}
+        <img class="card-img-top" src="{{ obj.image.url }}" alt="Card image cap">
+        <div class="card-body">
+          <p class="card-text">{{ project.name }}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+            </div>
+            <small class="text-muted">9 mins</small>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+{% endfor %} -->
+
+
+</div>
+</div>
+</div>
+
+
+
+{% endblock content %}

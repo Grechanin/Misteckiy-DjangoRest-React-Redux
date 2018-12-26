@@ -1,0 +1,91 @@
+<div class="form-container form-group">
+  {% if form.errors.non_field_errors %}
+    {{ form.errors.non_field_errors }}
+  {% endif %}
+  <form class='my-ajax-form' method='POST' action="{% url 'prices:order' %}">{% csrf_token %}
+    {{ form.as_p }}
+    <span class="text-danger phone-error"></span><br>
+    <span class="text-danger email-error"></span>
+    <div class="text-right"><input class="button button_white-grey" type="submit" value="Відпрвавити"></div>
+  </form>
+</div>
+
+{% block script %}
+
+{% load static %}
+<script src="{% static 'js/intlTelInput.js' %}"></script>
+<script src="{% static 'js/utils.js' %}"></script>
+<script>
+    $("#id_phone_number").intlTelInput({placeholderNumberType: "off", initialCountry: "UA", preferredCountries: [] })
+    var countryData = $("#id_phone_number").intlTelInput("getSelectedCountryData");
+    var int_code = countryData.dialCode
+    $("#id_phone_number").intlTelInput("setNumber", "+"+int_code);
+
+    $("#id_phone_number").on("countrychange", function(e, countryData) {
+    var int_code = countryData.dialCode
+    $("#id_phone_number").intlTelInput("setNumber", "+"+int_code);
+    });
+</script>
+
+<script>
+$(document).ready(function(){
+    // var service = $(".btn-order:visited").attr("data-service");
+    // console.log(service)
+    $("#id_order_name").val(service);
+    var $myForm = $('.my-ajax-form')
+    $myForm.submit(function(event){
+        event.preventDefault()
+        var $formData = $(this).serialize()
+        var $thisURL = $myForm.attr('action') // || window.location.href // or set your own url
+        $.ajax({
+            method: "POST",
+            url: $thisURL,
+            data: $formData,
+            success: handleFormSuccess,
+            error: handleFormError,
+        })
+    })
+
+    function handleFormSuccess(data, textStatus, jqXHR){
+        console.log(data)
+        console.log(textStatus)
+        console.log(jqXHR)
+        var instance = $.fancybox.getInstance();
+        console.log(instance)
+        instance.close();
+        $.fancybox.open('<div class="message"><h2>Дякуємо!</h2><p>Ваше замовлення прийнято!</p></div>');
+        // $myForm[0].reset(); // reset form data
+    }
+
+    function handleFormError(jqXHR, textStatus, errorThrown){
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+        if (jqXHR.responseJSON.phone_number){
+          $('#id_phone_number').addClass('erorr-input-field');
+          
+          if (!$(".phone").length){
+            var phone_text_error  = "<span class='erorr-input-field phone'> Введіть вірний телефон</span>"
+            $('label[for="id_phone_number"]').after(phone_text_error)
+          }
+          // $('.phone-error').text(jqXHR.responseJSON.phone_number[0]);
+        } else {
+            $('#id_phone_number').removeClass('erorr-input-field')
+            $(".phone").remove()
+        }
+
+        if (jqXHR.responseJSON.email){
+          $('#id_email').addClass('erorr-input-field');
+          if (!$(".email").length){
+              var email_text_error  = "<span class='erorr-input-field email'> Введіть вірну електронну адресу</span>"
+              $('label[for="id_email"]').after(email_text_error)
+          }
+          // $('.email-error').text(jqXHR.responseJSON.email[0]);
+        } else {
+            $('#id_email').removeClass('erorr-input-field')
+            $(".email").remove()
+        }
+    }
+})
+</script>
+{% endblock script %}

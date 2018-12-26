@@ -1,0 +1,83 @@
+{% load static %}
+<div class="form-container">
+	<h1>Форма Замовлення</h1>
+<form class="my-ajax-form" method="POST" action="{% url 'prices:order' %}">{% csrf_token %}
+  <div class="form-group">
+    <label for="service">Замовлення послуги</label>
+    <input type="text" name="{{ form.order_name.name }}" class="form-control" id="service" value="Послуга">
+  </div>
+  <div class="form-group">
+    <label for="{{ form.client_name.id_for_label }}">І'мя</label>
+    <input type="text" class="form-control" name="{{ form.client_name.name }}" id="{{ form.client_name.id_for_label }}" placeholder="І'мя">
+  </div>
+  <div class="form-group">
+    <label for="{{ form.phone_number.id_for_label }}">Телефон</label>
+    <input type="tel" name="{{ form.phone_number.name }}" id="{{ form.phone_number.id_for_label }}" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="{{ form.email.id_for_label }}">Email address</label>
+    <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" class="form-control" placeholder="електронна адреса">
+  </div>
+  <div class="form-group">
+    <label for="{{ form.coment.id_for_label }}">Коментар</label>
+    <textarea name="{{ form.coment.name }}" cols="" rows="3" class="form-control" id="{{ form.coment.id_for_label }}"></textarea>
+  </div>
+  <!-- {{form.as_p}} -->
+
+  <button type="submit" class="btn btn-primary">Відправити</button>
+</form>
+</div>
+
+
+
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<script src="{% static 'js/intlTelInput.js' %}"></script>
+<script src="{% static 'js/utils.js' %}"></script>
+<script>
+
+  
+	$("#{{ form.phone_number.id_for_label }}").intlTelInput({placeholderNumberType: "off", initialCountry: "UA", preferredCountries: [] })
+	var countryData = $("#{{ form.phone_number.id_for_label }}").intlTelInput("getSelectedCountryData");
+	var int_code = countryData.dialCode
+	$("#{{ form.phone_number.id_for_label }}").intlTelInput("setNumber", "+"+int_code);
+
+	$("#{{ form.phone_number.id_for_label }}").on("countrychange", function(e, countryData) {
+	var int_code = countryData.dialCode
+	$("#{{ form.phone_number.id_for_label }}").intlTelInput("setNumber", "+"+int_code);
+	});
+ 
+</script>
+
+<script>
+$(document).ready(function(){
+    var $myForm = $('.my-ajax-form')
+    $myForm.submit(function(event){
+        event.preventDefault()
+        var $formData = $(this).serialize()
+        var $thisURL = $myForm.attr('action') || window.location.href // or set your own url
+        $.ajax({
+            method: "POST",
+            url: $thisURL,
+            data: $formData,
+            success: handleFormSuccess,
+            error: handleFormError,
+        })
+    })
+
+    function handleFormSuccess(data, textStatus, jqXHR){
+        console.log(data)
+        console.log(textStatus)
+        console.log(jqXHR)
+        $myForm[0].reset(); // reset form data
+    }
+
+    function handleFormError(jqXHR, textStatus, errorThrown){
+        console.log(jqXHR)
+        console.log(textStatus)
+        console.log(errorThrown)
+    }
+})
+</script>
+
+

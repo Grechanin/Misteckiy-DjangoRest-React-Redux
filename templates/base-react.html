@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content='Замовляйте дизайн інтер’єру в сучасному стилі від студії "Мистецький дім" у Хмельницькому та Кам’янці-Подільському. Наша гіпсова ліпнина додасть вашій квартирі індивідуальності. Велика галерея готових робіт, широкий асортимент гіпсового декору - MISTECKIY DIM.'>
+    <meta name="author" content="Igor Smolinskiy">
+    <link rel="icon" href="{{ favicon.favicon.url }}">
+
+    {% block meta_tags %} {% endblock meta_tags %}
+
+    <title>{% block head_title %}  {% endblock head_title %}</title>
+
+    {% include 'head_css.html' %}
+
+
+  </head>
+
+  <body>
+        {% include 'header.html' %}
+      
+        {% block content %} {% endblock content %}
+     
+
+   {% include 'js-react.html' %}
+
+  </body>
+</html>

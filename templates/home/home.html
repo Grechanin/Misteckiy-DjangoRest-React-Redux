@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block meta_tags %}
+	<meta property="og:url" content="{{ request.build_absolute_uri }}"/>
+	<meta property="og:type" content="article"/>
+	
+	{% for carousel_img in carousel_imgs|slice:":1" %}
+		<meta property="og:image" content="{{ carousel_img.img.url }}"/>
+    {% endfor %}
+{% endblock meta_tags %}
+
+
+
+{% block head_title %} {{ tab_title }} {% endblock %}
+
+
+{% block carousel %}
+
+  {% include 'home/carousel.html' %}
+
+{% endblock carousel %}
+
+
+{% block jumbotron_content %}
+
+  {% include 'home/jumbotron_content.html' %}
+
+{% endblock jumbotron_content %}
+
+
+
+{% block content %}
+
+  {% include 'home/last_projects.html' %}
+
+{% endblock content %}

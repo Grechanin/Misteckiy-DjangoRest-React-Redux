@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block head_title %} {{ project.tab_title }} {% endblock %}
+
+{% block meta_tags %}
+	<meta property="og:type" content="article"/>
+	<meta property="og:image" content="{{ main_image_url }}"/>
+	<meta property="og:url" content="{{ request.build_absolute_uri }}"/>
+{% endblock meta_tags %}
+
+{% block sub_nav_bar %}
+
+{% include 'projects/projects_navbar.html' %}
+
+{% endblock sub_nav_bar %}
+
+
+
+{% block breadcrumb %}
+
+<div class="container">
+	<nav aria-label="breadcrumb">
+	  <ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="/">Головна</a></li>
+	    <li class="breadcrumb-item"><a href="{% url 'projects:projects' %}">Проекти</a></li>
+	    <li class="breadcrumb-item"><a href="{{ project.category.get_absolute_url }}">{{ project.category.name }}</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">{{ project.name }}</li>
+	  </ol>
+	</nav>
+</div>
+
+{% endblock breadcrumb %}
+
+
+
+{% block content %}
+<div class="page__container">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 margin-bottom-65px">
+				{% if project.name %}
+				<h1 class="text-center">{{ project.name }}</h1>
+				{% endif %}
+				{% if project.short_description %}
+                <p>{{ project.short_description|safe }} </p>
+                {% endif %}
+				{% if project.description %}
+	            <div class="content hideContent">
+	                <p>{{ project.description|safe }}</p>
+	            </div>
+	            <div class="show-more">
+	                <a href="#" class="more-link">Детальніше</a>
+	            </div>
+	            {% endif %}
+			</div>
+
+			<div class="col-md-6">
+			{% for img in project.projectimage_set.all|slice:"::2" %}
+				<div class="img-div img-margin-booton-15px">
+					<a data-fancybox="gallery" data-options='{"buttons": ["zoom", "slideShow", "fullScreen", "share","close"]}' data-caption="{{ project.name }}" href="{{ img.image.url }}" class="outline-focus-none">
+	                  <!-- <img src="{{ img.image_thumbnail.url }}" alt="{{ img.image_thumbnail.name }}" class="outline-focus-none thumbnail-img img-fluid img-zoom img-padding-booton-15px"> -->
+	                  <img class="card-img-top-border-radius-0 img-zoom" src="{{ img.image_thumbnail.url }}" alt="{{ project.name }}">
+	                </a>
+           		</div>
+
+					<!-- <div class="project-img">
+						<img class="img-fluid" src="{{ img.image.url }}" alt="Project image">
+
+						<div class="share-btn">
+			                <button type="button" class="btn btn-primary">Share</button>
+			            </div>
+
+					</div> -->				
+			{% endfor %}
+			</div>
+
+			<div class="col-md-6">
+			{% for img in project.projectimage_set.all|slice:"1::2" %}
+				<div class="img-div img-margin-booton-15px">
+				<a data-fancybox="gallery" data-options='{"buttons": ["zoom", "slideShow", "fullScreen", "share","close"]}' data-caption="{{ project.name }}" href="{{ img.image.url }}" class="outline-focus-none">
+                  <!-- <img src="{{ img.image_thumbnail.url }}" alt="{{ img.image_thumbnail.name }}" class="outline-focus-none thumbnail-img img-fluid img-zoom img-padding-booton-15px "> -->
+                  <img class="card-img-top-border-radius-0 img-zoom" src="{{ img.image_thumbnail.url }}" alt="{{ project.name }}">
+                </a>
+                </div>
+					<!-- <div class="project-img">
+						<img class="img-fluid" src="{{ img.image.url }}" alt="Project image">
+
+						<div class="share-btn">
+			                <button type="button" class="btn btn-primary">Share</button>
+			            </div>
+
+					</div> -->				
+			{% endfor %}
+			</div>
+
+		</div>
+		<div class="social-likes-title">Поділитися проектом</div>
+		<div class="row row-social-likes">
+			<div class="col-md-3">
+
+				<!-- <a href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'facebook-share-dialog','width=626,height=436');return false;">Share on Facebook</a>
+ -->
+
+				<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">
+					Share on Facebook
+				</a>
+
+				<!-- <a href="javascript: void(0);" data-layout="button" onclick="window.open('https://www.facebook.com/sharer.php?u={{ request.build_absolute_uri }}&summary={{ share_string }}&title={{ project.name }}&description={{ share_string }}&image={{ main_image_url }}','ventanacompartir', 'toolbar=0, status=0, width=650, height=450');"> Share on Facebook </a> -->
+				
+
+			</div>
+
+			<div class="col-md-3">
+				<a href="https://twitter.com/home?status={{ share_string }}%20%20{{ request.build_absolute_uri }}" target="_blank">
+					Share on Twitter
+				</a>
+
+			</div>
+
+			<div class="col-md-3">
+				<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}' target="_blank">
+					Share on Google+ 
+				</a>
+
+
+				
+			</div>
+			<div class="col-md-3">
+				<a data-pin-do="buttonBookmark" href="//www.pinterest.com/pin/create/button" target="_blank"><!-- <img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" /> --></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

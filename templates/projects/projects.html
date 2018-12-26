@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block head_title %} {{ tab_title }} {% endblock %}
+
+
+{% block sub_nav_bar %}
+
+{% include 'projects/projects_navbar.html' %}
+
+{% endblock sub_nav_bar %}
+
+
+{% block breadcrumb %}
+
+<div class="container">
+	<nav aria-label="breadcrumb">
+	  <ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="/">Головна</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">Проекти</li>
+	  </ol>
+	</nav>
+</div>
+
+{% endblock breadcrumb %}
+
+
+{% block content %}
+
+<div class="page__container">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				{% if title %}
+				<h1 class="text-center page__title">{{ title }}</h1>
+				{% endif %}
+				{% if description %}
+				<p>{{ short_description|safe }}</p>
+				{% endif %}
+				{% if description %}
+	            <div class="content hideContent">
+	                <p>{{ description|safe }}</p>
+	            </div>
+	            <div class="show-more">
+	                 <a href="#" class="more-link margin-bottom-65px">Детальніше</a>
+	            </div>
+	            {% endif %}
+			</div>
+		</div>
+	</div>
+            
+
+
+	<div class="container-fluid">
+		<div class="row">
+			{% for project in projects %}
+				<div class="col-md-3 col-md-3-padding-0">
+			      	{% for obj in project.projectimage_set.all %}
+				      	{% if obj.is_main %}
+				        <div class="img-div">
+				        	<a href="{{ project.get_absolute_url }}">
+				        		<img class="card-img-top card-img-top-border-radius-0 img-zoom" src="{{ obj.image.url }}" alt="Card image cap">
+				        	</a>
+				        </div>
+				        {% endif %}
+				    {% endfor %}
+
+			        <div class="project__title">
+			          <a href="{{ project.get_absolute_url }}"><p>{{ project.name }}</p></a>
+			        </div>
+	        	</div>
+	    	{% endfor %}
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block head_title %} {{ tab_title }} {% endblock %}
+
+
+{% block sub_nav_bar %}
+
+{% include 'gypsum/gypsum_navbar.html' %}
+
+{% endblock sub_nav_bar %}
+
+
+
+{% block breadcrumb %}
+
+
+<div class="container d-flex">
+	<nav aria-label="breadcrumb" class="d-flex">
+	  <ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="/">Головна</a></li>
+	    <li class="breadcrumb-item"><a href="{% url 'gypsum:gypsum_products' %}">Ліпнина</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
+	  </ol>
+	</nav>
+
+	<div class="basket-container text-right">
+
+          <div class="basket">{% csrf_token %}
+            <a href="#">Кошик <span id="basket_total_qnt">
+                {% if total_product_qnt %}
+                    ({{ total_product_qnt }})
+                {% else %}
+                    (0)
+                {% endif %}
+            </span></a>
+          </div>
+
+          <div class="basket-items text-center hidden">
+            <ul>
+              {% for product_in_basket in products_in_basket %}
+                <li class="text-left">
+                  {% for img in product_in_basket.product.gypsumimage_set.all %}
+                    {% if forloop.first %}                              
+                      <a data-fancybox="gallery" data-options='{"buttons": ["zoom","close"]}' data-caption="{{ products_in_basket.name }}" href="{{ img.image.url }}" class="outline-focus-none">
+                          <img class="basket-img" src="{{ img.image_thumbnail.url }}" />
+                      </a>
+                    {% endif %}
+                  {% endfor %}
+
+
+                  <p class="basket-p">{{ product_in_basket }}, {{ product_in_basket.nmb }} шт. по {{ product_in_basket.price_pre_item }} грн <a class="delete-item" href="#" data-product_id="{{ product_in_basket.product.id }}"><sup title="Видалити">X</sup></a>
+                  </p>
+                </li>
+              {% endfor %}
+            </ul>
+            <a role="button" class="basket-btn btn btn-success btn-sm" href="{% url 'orders:checkout' %}">До оформлення</a>
+          </div>
+        </div>
+
+</div>
+
+{% endblock breadcrumb %}
+
+
+
+{% block content %}
+<div class="page__container">
+    <div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				{% if category.name %}
+				<h1 class="text-center page__title">{{ category.name }}</h1>
+				{% endif %}
+				<div class="basket-container container d-md-none d-lg-none d-xl-none">
+				    <a href="{% url 'orders:checkout' %}">Кошик <span id="basket_total_qnt">
+				        {% if total_product_qnt %}
+				            ({{ total_product_qnt }})
+				        {% else %}
+				            (0)
+				        {% endif %}
+				    </span></a>
+			    </div>   
+				{% if category.short_description %}
+                <p>{{ category.short_description|safe }} </p>
+                {% endif %}
+				{% if category.description %}
+	            <div class="content hideContent">
+	                <p>{{ category.description|safe }}</p>
+	            </div>
+	            <div class="show-more">
+	                <a href="#" class="more-link">Детальніше</a>
+	            </div>
+	            {% endif %}
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row">
+			{% for gypsum_item in gypsum_in_category %}
+				<div class="col-md-3 col-md-3-padding-5px">
+			      	{% for obj in gypsum_item.gypsumimage_set.all %}
+				      	{% if obj.is_main %}
+				        <div class="last-projects-img-size img-div">
+				        	<a href="{{ gypsum_item.get_absolute_url }}">
+				        		<img class="image-resize card-img-top-border-radius-0 img-zoom" style="height: auto;" src="{{ obj.image.url }}" alt="Card image cap">
+				        	</a>
+				        </div>
+
+					    <div class="project__title">
+				          <a href="{{ gypsum_item.get_absolute_url }}"><p>{{ gypsum_item.name }}</p></a>
+				        </div>				        	
+				        
+				        {% endif %}
+				    {% endfor %}
+	        	</div>
+	    	{% endfor %}
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

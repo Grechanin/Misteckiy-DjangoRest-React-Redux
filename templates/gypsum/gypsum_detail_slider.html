@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block head_title %} {{ tab_title }} {% endblock %}
+
+{% block sub_nav_bar %}
+
+{% include 'gypsum/gypsum_navbar.html' %}
+
+{% endblock sub_nav_bar %}
+
+
+
+{% block breadcrumb %}
+
+<div class="container">
+	<nav aria-label="breadcrumb">
+	  <ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="/">Головна</a></li>
+	    <li class="breadcrumb-item"><a href="{% url 'gypsum:gypsum_products' %}">Проекти</a></li>
+	    <li class="breadcrumb-item"><a href="{{ gypsum_product.category.get_absolute_url }}">{{ gypsum_product.category.name }}</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">{{ gypsum_product.name }}</li>
+	  </ol>
+	</nav>
+</div>
+
+{% endblock breadcrumb %}
+
+
+
+{% block content %}
+<br>
+<div class="basket-container basket-container-sm container d-md-none d-lg-none d-xl-none">
+    <a href="{% url 'orders:checkout' %}">Кошик <span id="sm-basket_total_qnt">
+        {% if total_product_qnt %}
+            ({{ total_product_qnt }})
+        {% else %}
+            (0)
+        {% endif %}
+    </span></a>
+</div>
+
+	<div class="container">
+		<div class="row">
+
+			<div class="col-md-6">
+				<div id="slider" class="flexslider">
+				  <ul class="slides">
+					{% for img in gypsum_product.gypsumimage_set.all %}
+					    <li>
+                            <img  src="{{ img.image.url }}" />
+					    </li>
+					{% endfor %}
+				  </ul>
+				</div>
+				{% if gypsum_product.gypsumimage_set.all.1 %}
+				<div id="carousel" class="flexslider d-none d-md-block d-xl-block">
+				  <ul class="slides">
+					{% for img in gypsum_product.gypsumimage_set.all %}
+					    <li>
+					      <img src="{{ img.image_thumbnail.url }}" />
+					    </li>
+					{% endfor %}
+				  </ul>
+				</div>
+				{% endif %}
+			</div>
+
+			<div class="col-md-6 margin-bottom-65px">
+				{% if gypsum_product.name %}
+				<h1 class="text-left margin-top-0">{{ gypsum_product.name }}</h1>
+				{% endif %}
+				{% if gypsum_product.price %}
+				<h5 class="text-left margin-top-0">Ціна {{ gypsum_product.price }} грн</h5>
+				{% endif %}
+				<div class="gypsum-description">
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+					  {% if gypsum_product.short_description %}
+					  <li class="nav-item">
+					    <a class="nav-link active nav-padding" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Опис</a>
+					  </li>
+					  {% endif %}
+					  {% if gypsum_product.domentions %}
+					  <li class="nav-item ">
+					    <a class="nav-link nav-padding" id="dementions-tab" data-toggle="tab" href="#dementions" role="tab" aria-controls="dementions" aria-selected="false">Розміри</a>
+					  </li>
+					  {% endif %}
+					</ul>
+					<div class="tab-content" id="myTabContent">
+					  <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+					  	{% if gypsum_product.short_description %}
+		                	{{ gypsum_product.short_description|safe }}
+		                {% endif %}
+					  </div>
+					  <div class="tab-pane fade" id="dementions" role="tabpanel" aria-labelledby="dementions-tab">
+					  	{% if gypsum_product.domentions %}
+			                {{ gypsum_product.domentions|safe }}
+			            {% endif %}
+					  </div>
+				</div>
+
+				<form action="{% url 'orders:basket_adding' %}" class="form-inline" id="form_buying_product">{% csrf_token %}
+					<div class="form-group">
+						<input type="number" min="1" value="1" id="product-qnt-input" class="form-control product-qnt-input" placeholder="Оберіть кількість">
+					</div>
+
+					<div class="form-group">
+						<button type="submit" id="qnt-submit-btn" class="btn btn-success qnt-submit-btn"
+						data-product_id='{{ gypsum_product.id }}'
+						data-name='{{ gypsum_product.name }}'
+						data-price='{{ gypsum_product.price }}'>До кошика</button>
+					</div>
+				</form>
+
+				{% if gypsum_product.gypsum_3d_model %}
+					<br>
+					<a href="{{ gypsum_product.gypsum_3d_model.url }}" download>Скачати 3D модель</a>
+				{% endif %}
+				</div>
+			</div>
+		</div>
+
+		
+		<div class="social-likes-title">Поділитися проектом</div>
+		<div class="row row-social-likes">
+			<div class="col-md-3">
+				<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">
+					Share on Facebook
+				</a>
+				
+			</div>
+
+			<div class="col-md-3">
+				<a href="https://twitter.com/home?status={{ share_string }}%20%20{{ request.build_absolute_uri }}" target="_blank">
+					Share on Twitter
+				</a>
+			</div>
+
+			<div class="col-md-3">
+				<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}' target="_blank">
+					Share on Google+ 
+				</a>
+
+				
+			</div>
+			<div class="col-md-3">
+				<a data-pin-do="buttonBookmark" href="//www.pinterest.com/pin/create/button" target="_blank"><!-- <img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" /> --></a>
+			</div>
+		</div>
+	</div>
+
+
+
+{% endblock content %}
+
+{% block script %}
+
+	{% load static %}
+	<script src="{% static 'js/jquery.flexslider.js' %}"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+		  	 // The slider being synced must be initialized first
+			  $('#carousel').flexslider({
+			    animation: "slide",
+			    controlNav: false,
+			    animationLoop: false,
+			    slideshow: false,
+			    itemWidth: 210,
+			    itemMargin: 5,
+			    asNavFor: '#slider'
+			  });
+			 
+			  $('#slider').flexslider({
+			    animation: "slide",
+			    controlNav: false,
+			    animationLoop: false,
+			    slideshow: false,
+			    sync: "#carousel"
+			  });
+
+			  	$('.slides>li').html(function(i,h){
+				    return h.replace(/&nbsp;/g,'');
+				});
+			});
+	</script>
+
+
+{% endblock script %}

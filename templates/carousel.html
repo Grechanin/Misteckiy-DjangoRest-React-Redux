@@ -1,0 +1,32 @@
+<!-- <div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12"> -->
+      <div id="carousel" class="carousel slide carousel-max-height" data-ride="carousel">
+        <div class="carousel-inner carousel-max-height">
+          {% for carousel_img in carousel_imgs|slice:":5" %}
+          {% if forloop.first %}
+          <div class="carousel-item carousel-item-height active">
+            <img class="w-100" src="{{ carousel_img.img.url }}" alt="{{ carousel_img.description|safe }}">
+          </div>
+          {% else %}
+          <div class="carousel-item carousel-item-height">
+            <img class="w-100" src="{{ carousel_img.img.url }}" alt="{{ carousel_img.description|safe }}">
+          </div>
+          {% endif %}
+          {% endfor %}
+          <a class="carousel-control-prev carousel-control-btn-height" href="#carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next carousel-control-btn-height" href="#carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+<!--     </div>
+  </div>
+</div> -->
+
+
+

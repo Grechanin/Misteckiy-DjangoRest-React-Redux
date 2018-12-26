@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content='Замовляйте дизайн інтер’єру в сучасному стилі від студії "Мистецький дім" у Хмельницькому та Кам’янці-Подільському. Наша гіпсова ліпнина додасть вашій квартирі індивідуальності. Велика галерея готових робіт, широкий асортимент гіпсового декору - MISTECKIY DIM.'>
+    <meta name="author" content="Igor Smolinskiy">
+    <link rel="icon" href="{{ favicon.favicon.url }}">
+
+    {% block meta_tags %} {% endblock meta_tags %}
+
+    <title>{% block head_title %}  {% endblock head_title %}</title>
+
+    {% include 'head_css.html' %}
+
+
+  </head>
+
+  <body>
+    
+    <div class="main-container">
+    {% include 'navbar.html' %}
+
+    {% block carousel %}
+
+    {% endblock carousel %}
+
+    {% block sub_nav_bar %}
+
+    {% endblock sub_nav_bar %}
+
+      <main role="main">
+
+        <div class="d-none d-md-block">
+          {% block breadcrumb %}
+
+          {% endblock breadcrumb %}
+        </div>
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        {% block jumbotron_content %}
+
+        {% endblock jumbotron_content %}
+
+
+        {% block content %}
+
+        {% endblock content %}
+
+
+      </main>
+
+    {% include 'footer.html' %}
+    </div>
+
+   {% include 'js.html' %}
+
+    {% block script %}
+
+    {% endblock script %}
+
+  </body>
+</html>
