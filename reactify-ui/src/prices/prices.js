@@ -1,144 +1,170 @@
 import React, { Component } from 'react'
-import 'whatwg-fetch'
 import Navbar from '../header/navbar'
 import Footer from '../snipets/footer'
 import Breadcrumb from '../snipets/breadcrumd.js'
 import MainContent from './mainContant.js'
+import { connect } from 'react-redux'
+import * as actionCreator from '../store/actions/actions'
+import Loader from 'react-loader'
 
 class Prices extends Component {
-  constructor (props) {
-    super(props)
-    this.loadDesignPricesPageDescription = this.loadDesignPricesPageDescription.bind(this)
-    this.loadDesignPricesCategories = this.loadDesignPricesCategories.bind(this)
-    this.loadDesignCategoriesDescription = this.loadDesignCategoriesDescription.bind(this)
+  // constructor (props) {
+  //   super(props)
+  // this.loadDesignPricesPageDescription = this.loadDesignPricesPageDescription.bind(this)
+  // this.loadDesignPricesCategories = this.loadDesignPricesCategories.bind(this)
+  // this.loadDesignCategoriesDescription = this.loadDesignCategoriesDescription.bind(this)
+  // }
+
+  //   state = {
+  //     tab_title: null,
+  //     title: null,
+  //     short_description: null,
+  //     description: null,
+  //     categories: null,
+  //     categoriesDescription: null,
+  //   }
+
+  // loadDesignPricesPageDescription () {
+  //   let thisComp = this
+  //   let endpoint = '/api/design-prices/'
+
+  //   let lookupOptions = {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   }
+
+  //   fetch(endpoint, lookupOptions)
+  //     .then((responce) => {
+  //       return responce.json()
+  //     }).then((responceData) => {
+  //       // console.log(responceData)
+  //       thisComp.setState({
+  //         tab_title: responceData.tab_title,
+  //         title: responceData.title,
+  //         short_description: responceData.short_description,
+  //         description: responceData.description,
+  //       })
+  //       document.title = this.state.tab_title
+  //     }).catch((error) => {
+  //       console.log('error', error)
+  //     })
+  // }
+
+  // loadDesignPricesCategories () {
+  //   let thisComp = this
+  //   let endpoint = '/api/design-prices/categories/'
+
+  //   let lookupOptions = {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   }
+
+  //   fetch(endpoint, lookupOptions)
+  //     .then((responce) => {
+  //       return responce.json()
+  //     }).then((responceData) => {
+  //       // console.log(responceData)
+  //       thisComp.setState({
+  //         categories: responceData,
+  //       })
+  //       document.title = this.state.tab_title
+  //     }).catch((error) => {
+  //       console.log('error', error)
+  //     })
+  // }
+
+  // loadDesignCategoriesDescription () {
+  //   let thisComp = this
+  //   let endpoint = '/api/design-prices/categories_description/'
+
+  //   let lookupOptions = {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   }
+
+  //   fetch(endpoint, lookupOptions)
+  //     .then((responce) => {
+  //       return responce.json()
+  //     }).then((responceData) => {
+  //       // console.log(responceData)
+  //       thisComp.setState({
+  //         categoriesDescription: responceData,
+  //       })
+  //       document.title = this.state.tab_title
+  //     }).catch((error) => {
+  //       console.log('error', error)
+  //     })
+  // }
+
+  componentDidMount () {
+    this.props.loadDesignPricesPageDescription()
+    this.props.loadDesignPricesCategories()
+    this.props.loadDesignCategoriesDescription()
   }
 
-    state = {
-      tab_title: null,
-      title: null,
-      short_description: null,
-      description: null,
-      categories: null,
-      categoriesDescription: null,
-    }
-
-    loadDesignPricesPageDescription () {
-      let thisComp = this
-      let endpoint = '/api/design-prices/'
-
-      let lookupOptions = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-
-
-      fetch(endpoint, lookupOptions)
-        .then((responce) => {
-          return responce.json()
-        }).then((responceData) => {
-          // console.log(responceData)
-          thisComp.setState({
-            tab_title: responceData.tab_title,
-            title: responceData.title,
-            short_description: responceData.short_description,
-            description: responceData.description,
-          })
-          document.title = this.state.tab_title
-        }).catch((error) => {
-          console.log('error', error)
-        })
-    }
-
-
-    loadDesignPricesCategories () {
-      let thisComp = this
-      let endpoint = '/api/design-prices/categories/'
-
-      let lookupOptions = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-
-
-      fetch(endpoint, lookupOptions)
-        .then((responce) => {
-          return responce.json()
-        }).then((responceData) => {
-          // console.log(responceData)
-          thisComp.setState({
-            categories: responceData,
-          })
-          document.title = this.state.tab_title
-        }).catch((error) => {
-          console.log('error', error)
-        })
-    }
-
-
-    loadDesignCategoriesDescription () {
-      let thisComp = this
-      let endpoint = '/api/design-prices/categories_description/'
-
-      let lookupOptions = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-
-
-      fetch(endpoint, lookupOptions)
-        .then((responce) => {
-          return responce.json()
-        }).then((responceData) => {
-          // console.log(responceData)
-          thisComp.setState({
-            categoriesDescription: responceData,
-          })
-          document.title = this.state.tab_title
-        }).catch((error) => {
-          console.log('error', error)
-        })
-    }
-
-
-
-    componentDidMount () {
-      this.loadDesignPricesPageDescription()
-      this.loadDesignPricesCategories()
-      this.loadDesignCategoriesDescription()
-    }
-
   render () {
+    // const {
+    //         order_form,
+    //         order_name } = this.state
     const {
-            tab_title,
-            short_description,
-            description,
-            categories,
-            categoriesDescription,
-            order_form,
-            order_name } = this.state
+      title,
+      short_description,
+      description,
+      categories,
+      categoriesDescription,
+      showMore,
+      showMoreDesignPricesDetail,
+      loaded } = this.props
+    document.title = this.props.tab_title
     return (
       <div className='main-container'>
         <Navbar />
-        <Breadcrumb title={tab_title} />
-        { categories && categoriesDescription ? 
-        <MainContent  title={tab_title}
-                      short_description={short_description}
-                      description={description}
-                      categories={categories}
-                      categoriesDescription={categoriesDescription}
-                      order_form={order_form}
-                      order_name={order_name}  /> : '' }
-       
+        <Loader loaded={loaded} color='#e7e0e0' />
+        <Breadcrumb title={title} />
+        { categories && categoriesDescription
+          ? <MainContent title={title}
+            short_description={short_description}
+            description={description}
+            categories={categories}
+            categoriesDescription={categoriesDescription}
+            showMore={showMore}
+            showMoreButtonToggle={showMoreDesignPricesDetail}
+            // order_form={order_form}
+            // order_name={order_name}
+          /> : '' }
+
         <Footer />
       </div>
     )
   }
 }
 
-export default Prices
+const mapStateToProps = (state) => {
+  return {
+    tab_title: state.pricesPage.tab_title,
+    title: state.pricesPage.title,
+    short_description: state.pricesPage.short_description,
+    description: state.pricesPage.description,
+    categories: state.pricesPage.categories,
+    categoriesDescription: state.pricesPage.categoriesDescription,
+    showMore: state.pricesPage.showMore,
+    loaded: state.pricesPage.loaded
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadDesignPricesPageDescription: () => dispatch(actionCreator.loadDesignPricesPageDescription()),
+    loadDesignPricesCategories: () => dispatch(actionCreator.loadDesignPricesCategories()),
+    loadDesignCategoriesDescription: () => dispatch(actionCreator.loadDesignCategoriesDescription()),
+    showMoreDesignPricesDetail: (e) => dispatch(actionCreator.showMoreDesignPricesDetail(e))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Prices)

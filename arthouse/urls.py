@@ -40,6 +40,8 @@ urlpatterns = [
     url(r'^api/home/', include('home.api.urls', namespace='home-api')),
     url(r'^api/gallery/', include('gallery.api.urls', namespace='gallery-api')),
     url(r'^api/projects/', include('projects.api.urls', namespace='projects-api')),
+    url(r'^api/gypsum/', include('gypsumProducts.api.urls', namespace='gypsum-api')),
+    url(r'^api/orders/', include('orders.api.urls', namespace='orders-api')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
 if settings.DEBUG:

@@ -2,6 +2,13 @@ import React, { Component } from 'react'
 import { Alert, Button, Modal, ModalBody } from 'reactstrap'
 
 class SuccessMessage extends Component {
+  componentDidMount () {
+    setTimeout(() => {
+      console.log('before timeout')
+      this.props.closeSuccessMessage()
+      console.log('after timeout')
+    }, 6000)
+  }
   render () {
     const { success_form, closeSuccessMessage } = this.props
 

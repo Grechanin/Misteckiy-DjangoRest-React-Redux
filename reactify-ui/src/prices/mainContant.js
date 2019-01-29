@@ -9,7 +9,9 @@ class MainContent extends Component {
       short_description,
       description,
       categories,
-      categoriesDescription
+      categoriesDescription,
+      showMore,
+      showMoreButtonToggle
     } = this.props
 
     return (
@@ -17,7 +19,11 @@ class MainContent extends Component {
         <div class='container main-background-color page__container margin-bottom-65px'>
           <div class='row'>
             <div class='col-md-12'>
-              <PageDescription title={title} short_description={short_description} description={description} />
+              <PageDescription title={title}
+                short_description={short_description}
+                description={description}
+                showMore={showMore}
+                showMoreButtonToggle={showMoreButtonToggle} />
 
               <ul class='nav nav-pills' id='pills-tab' role='tablist'>
                 { categories.map((instance, index) => {

@@ -36,7 +36,7 @@ class MainContent extends Component {
             </div>
             <div className='col-md-6 text-center'>
               <div className='contact'>
-                <div dangerouslySetInnerHTML={{ __html: title_phone_for_partners }} />
+                <h4 dangerouslySetInnerHTML={{ __html: title_phone_for_partners }} />
                 <div dangerouslySetInnerHTML={{ __html: phone_for_partners }} />
               </div>
             </div>

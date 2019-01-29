@@ -1,7 +1,11 @@
 from gallery.models import Gallery
 from .serializers import GallerySerializer, GalleryImagesListSerializer
+from .pagination import GalleryImagesListPagination
 from projects.models import ProjectImage
 from rest_framework import generics
+
+
+
 
 
 class GalleryDetailAPI(generics.RetrieveAPIView):
@@ -15,5 +19,6 @@ class GalleryDetailAPI(generics.RetrieveAPIView):
 
 
 class GalleryImagesListAPI(generics.ListAPIView):
-    queryset = ProjectImage.objects.filter(is_active=True).order_by('?')
+    queryset = ProjectImage.objects.filter(is_active=True).order_by('-update')
     serializer_class = GalleryImagesListSerializer
+    pagination_class = GalleryImagesListPagination

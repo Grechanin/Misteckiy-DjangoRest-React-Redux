@@ -4,7 +4,7 @@ import ImageInline from './imageInline'
 
 class MainContent extends Component {
   render () {
-    const { title, short_description, description, images, showMore, showMoreButtonToggle } = this.props
+    const { title, short_description, description, images, showMore, showMoreButtonToggle, galleryPageLoaded } = this.props
 
     return (
       <main>
@@ -54,7 +54,8 @@ class MainContent extends Component {
                     return (
                       <ImageInline image_project_name={instance.image_project_name}
                         image_url={instance.image_url}
-                        image_thumbnail_url={instance.image_thumbnail_url} />
+                        image_thumbnail_url={instance.image_thumbnail_url}
+                        galleryPageLoaded={galleryPageLoaded} />
                     )
                   })}
                 </div>

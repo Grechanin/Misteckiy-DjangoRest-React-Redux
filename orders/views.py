@@ -10,20 +10,20 @@ from .models import *
 def basket_adding(request):
     return_dict = dict()
     session_key = request.session.session_key
-    print(request.POST)
+    # print(request.POST)
     data = request.POST
     product_id = data.get("product_id")
     nmb = data.get("product_qnt")
     nmb = int(nmb)
     is_delete = data.get("is_delete")
     is_checkout_list = data.get("is_checkout_list")
-    print(is_delete)
-    print(product_id)
+    # print(is_delete)
+    # print(product_id)
 
     if is_delete == 'true':
         product = ProductInBasket.objects.get(product_id=product_id, session_key=session_key)
-        print('HERE!!!!! %s' % product)
-        print(product_id)
+        # print('HERE!!!!! %s' % product)
+        # print(product_id)
         product.is_active = False
         product.save(force_update=True)
 

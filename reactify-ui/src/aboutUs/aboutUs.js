@@ -5,6 +5,7 @@ import Breadcrumb from '../snipets/breadcrumd'
 import MainContent from './mainContent'
 import { connect } from 'react-redux'
 import * as actionCreator from '../store/actions/actions'
+import Loader from 'react-loader'
 
 class AboutUs extends Component {
   // constructor (props) {
@@ -56,8 +57,9 @@ class AboutUs extends Component {
     // const { title, short_description, description } = this.props
     document.title = this.props.tab_title
     return (
-      <div className='main-container'>
+      <div className='main-container' style={{ minHeight: '85vh' }} >
         <Navbar />
+        <Loader loaded={this.props.loaded} color='#e7e0e0' />
         <Breadcrumb title={this.props.title} />
         <MainContent title={this.props.title}
           short_description={this.props.short_description}
@@ -77,7 +79,8 @@ const mapStateToProps = (state) => {
     title: state.aboutUsPage.title,
     short_description: state.aboutUsPage.short_description,
     description: state.aboutUsPage.description,
-    showMore: state.aboutUsPage.showMore
+    showMore: state.aboutUsPage.showMore,
+    loaded: state.aboutUsPage.loaded
   }
 }
 

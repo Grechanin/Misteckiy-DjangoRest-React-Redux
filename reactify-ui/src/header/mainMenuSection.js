@@ -47,9 +47,9 @@ class MainMenuSection extends Component {
               </li>
               <li className='nav-item'>
                 <Link className='nav-link' to={{
-                  pathname: '/gipsum/',
+                  pathname: '/shop/',
                   state: { fromDashboard: false }
-                }} >Ліпнина</Link>
+                }} >Магазин</Link>
               </li>
               <li className='nav-item'>
                 <Link className='nav-link' to={{

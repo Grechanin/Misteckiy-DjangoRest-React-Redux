@@ -7,6 +7,7 @@ import LastProjects from './LastProjects'
 // import MainContent from './mainContent'
 import { connect } from 'react-redux'
 import * as actionCreator from '../store/actions/actions'
+import Loader from 'react-loader'
 
 class Home extends Component {
   // constructor (props) {
@@ -118,13 +119,22 @@ class Home extends Component {
   }
 
   render () {
-    const { title, short_description, description, last_projects, showMore, showMoreHome, carousel_imgs } = this.props
+    const { title,
+      short_description,
+      description,
+      last_projects,
+      showMore,
+      showMoreHome,
+      carousel_imgs,
+      loaded,
+      homePageLoaded } = this.props
     document.title = this.props.tab_title
     // console.log(carousel_imgs)
     return (
       <div className='main-container'>
         <Navbar ref={(navbarComponent) => this.navbarComponent = navbarComponent} />
-        { carousel_imgs ? <Carousel carousel_imgs={carousel_imgs} /> : '' }
+        <Loader loaded={loaded} color='#e7e0e0' />
+        { carousel_imgs ? <Carousel carousel_imgs={carousel_imgs} homePageLoaded={homePageLoaded} /> : '' }
         <PageDescription showMore={showMore}
           showMoreButtonToggle={showMoreHome}
           title={title}
@@ -146,6 +156,7 @@ const mapStateToProps = (state) => {
     short_description: state.homePage.short_description,
     description: state.homePage.description,
     carousel_imgs: state.homePage.carousel_imgs,
+    loaded: state.homePage.loaded,
     last_projects: state.homePage.last_projects,
     showMore: state.homePage.showMore
 
@@ -157,7 +168,8 @@ const mapDispatchToProps = (dispatch) => {
     loadHomePageDescription: () => dispatch(actionCreator.loadHomePageDescription()),
     loadLastProjects: () => dispatch(actionCreator.loadLastProjects()),
     loadCarousel: () => dispatch(actionCreator.loadCarousel()),
-    showMoreHome: (e) => dispatch(actionCreator.showMoreHome(e))
+    showMoreHome: (e) => dispatch(actionCreator.showMoreHome(e)),
+    homePageLoaded: () => dispatch(actionCreator.homePageLoaded())
   }
 }
 

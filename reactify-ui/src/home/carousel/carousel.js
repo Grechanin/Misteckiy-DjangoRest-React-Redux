@@ -3,7 +3,7 @@ import CarouselInline from './carouselInline'
 
 class Carousel extends Component {
   render () {
-    const { carousel_imgs } = this.props
+    const { carousel_imgs, homePageLoaded } = this.props
 
     return (
       <div id='carousel' className='carousel slide' data-ride='carousel'>
@@ -12,7 +12,7 @@ class Carousel extends Component {
           { carousel_imgs.map(
             (instance, index) => {
               return (
-                <CarouselInline img_url={instance.img_url} index={index} key={index} />
+                <CarouselInline img_url={instance.img_url} index={index} key={index} homePageLoaded={homePageLoaded} />
               )
             }
           )

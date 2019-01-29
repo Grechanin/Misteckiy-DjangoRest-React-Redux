@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import OrderForm from './OrderForm'
 import SuccessMessage from './SuccessMessage'
+import { connect } from 'react-redux'
+import * as actionCreator from '../store/actions/actions'
+import Loader from 'react-loader'
 
 
 
@@ -28,10 +31,10 @@ class TabContentDescriptionInline extends Component {
     }
 
   orderButtonHandler (event) {
-    // event.preventDefault()
+    event.preventDefault()
     const order_name = this.props.instance.title
-    const order_form = true
-    this.orderFormCallback(order_form, order_name)
+    // const order_form = true
+    this.props.designOrderButtonHandler(order_name)
   }
 
   closeOrderForm(){
@@ -66,8 +69,8 @@ class TabContentDescriptionInline extends Component {
   // }
 
   render () {
-    const { instance } = this.props
-    const { order_form, order_name, success_form } = this.state
+    const { order_form, success_form, instance } = this.props
+    const order_name = this.props.instance.title
     
     return (
       <div className='col-md-6'>
@@ -84,24 +87,45 @@ class TabContentDescriptionInline extends Component {
               Замовити
         </button>
 
-        {order_form ?          
-            
-                <OrderForm  order_name={order_name} 
+        {order_form === order_name ?          
+              <Loader loaded={this.props.form_loader} color="#e7e0e0" >
+                <OrderForm  order_name={order_name}
                             order_form={order_form} 
                             orderFormCallback={this.orderFormCallback}
                             successMessageHandler={this.successMessageHandler} />                   
-                  
+              </Loader>       
             : ''}
 
-        {success_form ?          
-            
+        {success_form === order_name ?          
+              
                 <SuccessMessage success_form={success_form}
-                                closeSuccessMessage={this.closeSuccessMessage} />                   
-                  
+                                closeSuccessMessage={this.props.closeSuccessMessage} />                   
+              
             : ''}
       </div>
     )
   }
 }
 
-export default TabContentDescriptionInline
+
+const mapStateToProps = (state) => {
+  return {
+    // order_name: state.pricesPage.order.order_name,
+    success_form: state.pricesPage.success_form,
+    form_loader: state.pricesPage.form_loader,
+    order_form: state.pricesPage.order_form,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createDesignOrder: (data) => dispatch(actionCreator.createDesignOrder(data)),
+    interiorProjecthandleInputChange: (e) => dispatch(actionCreator.interiorProjecthandleInputChange(e)),
+    handleDesignPhoneInputChange: (status, value, country) => dispatch(actionCreator.handleDesignPhoneInputChange(status, value, country)),
+    orderNameToState: (d) => dispatch(actionCreator.orderNameToState(d)),
+    designOrderButtonHandler: (order_name) => dispatch(actionCreator.designOrderButtonHandler(order_name)),
+    closeSuccessMessage: () => dispatch(actionCreator.closeSuccessMessage())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabContentDescriptionInline)

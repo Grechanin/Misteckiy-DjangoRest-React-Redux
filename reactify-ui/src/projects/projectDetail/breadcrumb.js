@@ -2,8 +2,14 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 class Breadcrumb extends Component {
+  capitalizeFirstLetter (string) {
+    if (string) return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+  }
   render () {
-    const { category_name, id, title } = this.props
+    let { category_name, id, title } = this.props
+    console.log(id)
+    title = this.capitalizeFirstLetter(title)
+    category_name = this.capitalizeFirstLetter(category_name)
     return (
       <div className='container'>
         <nav aria-label='breadcrumb'>

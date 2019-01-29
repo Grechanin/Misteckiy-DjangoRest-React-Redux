@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 class LastProjectInline extends Component {
+  // imageLoaded = () => {
+  //   this.props.homePageLoaded()
+  //   console.log('imageLoaded project')
+  // }
   render () {
     const { id, img, name } = this.props
     return (
