@@ -86,6 +86,8 @@ const initialState = {
       short_description: null,
       description: null,
       products: null,
+      next: null,
+      loaded_more: true,
       showMore: false
     },
     gypsumDetail: {
@@ -320,7 +322,7 @@ const reducer = (state = initialState, action) => {
       // }
 
       newState.projects.projects_detail = [ ...newState.projects.projects_detail, action.data ]
-      console.log('newState.projects.projects_detail', newState.projects.projects_detail)
+      // console.log('newState.projects.projects_detail', newState.projects.projects_detail)
       break
 
     case 'PROJECT_DETAIL_SHOW_MORE_BUTTON':
@@ -472,8 +474,65 @@ const reducer = (state = initialState, action) => {
         title: action.data.title,
         short_description: action.data.short_description,
         description: action.data.description,
-        products: action.data.products,
+        // products: action.data.products,
         gypsum_page_title: action.data.gypsum_page_title
+      }
+      break
+
+    case 'LOAD_GYPSUM_PAGE_BY_CATEGORY':
+      newState.gypsum.categoryDetail = { ...newState.gypsum.categoryDetail,
+        [action.data.id]: {
+          tab_title: action.data.tab_title,
+          title: action.data.title,
+          short_description: action.data.short_description,
+          description: action.data.description,
+          gypsum_page_title: action.data.gypsum_page_title
+        }
+      }
+      break
+
+    case 'LOAD_PRODUCTS_BY_CATEGORY':
+      let category_id = action.data.results[0].category
+      console.log('category_id', category_id)
+      console.log('newState.gypsum.categoryDetail[category_id', newState.gypsum.categoryDetail[category_id])
+      if (!newState.gypsum.categoryDetail[category_id].products) {
+        console.log('add products')
+        newState.gypsum.categoryDetail = { ...newState.gypsum.categoryDetail,
+          [category_id]: { ...newState.gypsum.categoryDetail[category_id],
+            products: action.data.results,
+            next: action.data.next,
+            loaded_more: true
+          }
+        }
+      } else {
+        newState.gypsum.categoryDetail[category_id] = { ...newState.gypsum.categoryDetail[category_id],
+          next: action.data.next,
+          loaded_more: true
+        }
+        newState.gypsum.categoryDetail[category_id].products = [ ...newState.gypsum.categoryDetail[category_id].products,
+          ...action.data.results
+        ]
+      }
+      break
+
+    case 'NEXT_LOAD_PRODUCTS_BY_CATEGORY':
+      let cat_id = action.data.results[0].category
+      newState.gypsum.categoryDetail[cat_id].products = [ ...newState.gypsum.categoryDetail[cat_id].products,
+        ...action.data.results
+      ]
+      newState.gypsum.categoryDetail = { ...newState.gypsum.categoryDetail,
+        [cat_id]: { ...newState.gypsum.categoryDetail[cat_id],
+          next: action.data.next,
+          loaded_more: true
+        }
+
+      }
+      console.log('add more products', newState.gypsum.categoryDetail[cat_id])
+      break
+
+    case 'CATEGORY_ACTIVATE_GYPSUM_LOAD_MORE':
+      newState.gypsum.categoryDetail = { ...newState.gypsum.categoryDetail,
+        loaded_more: false
       }
       break
 

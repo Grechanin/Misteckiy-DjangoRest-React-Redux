@@ -332,6 +332,15 @@ export const gypsumLoaderActivate = () => {
   }
 }// END ACTIVATE GYPSUM LOAD MORE LOADER
 
+// ACTIVATE CATEGORY GYPSUM LOAD MORE LOADER
+export const gypsumCategoryLoaderActivate = () => {
+  return dispatch => {
+    dispatch({
+      type: 'CATEGORY_ACTIVATE_GYPSUM_LOAD_MORE'
+    })
+  }
+}// END ACTIVATE CATEGORY GYPSUM LOAD MORE LOADER
+
 // LOAD GYPSUM CATEGORIES
 export const loadGypsumCategories = () => {
   const endpoint = '/api/gypsum/categories/'
@@ -351,14 +360,34 @@ export const showMoreGypsum = (e) => {
   }
 } // END GYPSUM PAGE SHOW MORE BUTTON
 
-// LOAD PAGE AND PRODUCTS BY CATEGORY
+// LOAD PAGE BY CATEGORY
 export const loadPageAndProductsByCategory = (id) => {
   const endpoint = `/api/gypsum/categories-detail/${id}/`
-  const type = 'LOAD_PAGE_AND_PRODUCTS_BY_CATEGORY'
+  const type = 'LOAD_GYPSUM_PAGE_BY_CATEGORY'
   return dispatch => {
     loadDataAsnc(dispatch, endpoint, type)
   }
-}// END LOAD PAGE AND PRODUCTS BY CATEGORY
+}// END LOAD PAGE BY CATEGORY
+
+// LOAD PRODUCTS BY CATEGORY
+export const loadProductsByCategory = (id) => {
+  const endpoint = `/api/gypsum/products-by-category/${id}/`
+  const type = 'LOAD_PRODUCTS_BY_CATEGORY'
+  return dispatch => {
+    loadDataAsnc(dispatch, endpoint, type)
+  }
+}// END PRODUCTS BY CATEGORY
+
+// LOAD PRODUCTS BY CATEGORY
+export const nextLoadProductsByCategory = (next) => {
+  if (next) {
+    const endpoint = next
+    const type = 'NEXT_LOAD_PRODUCTS_BY_CATEGORY'
+    return dispatch => {
+      loadDataAsnc(dispatch, endpoint, type)
+    }
+  }
+}// END PRODUCTS BY CATEGORY
 
 // GYPSUM CATEGORY DETAIL SHOW MORE BUTTON
 export const showMoreGypsumCategoryDetail = (e) => {
