@@ -1,53 +1,36 @@
 import React, { Component } from 'react'
 import 'whatwg-fetch'
 import MainMenuSection from './mainMenuSection'
+import { connect } from 'react-redux'
+import * as actionCreator from '../store/actions/actions'
 
 class Navbar extends Component {
-  constructor (props) {
-    super(props)
-    this.loadBrandImg = this.loadBrandImg.bind(this)
-  }
-
-  state = {
-      brand_url: null
-  }
-
-  loadBrandImg () {
-    let thisComp = this
-    let endpoint = '/api/home/favicon/'
-
-    let lookupOptions = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-// console.log(endpoint)
-
-    fetch(endpoint, lookupOptions)
-      .then((responce) => {
-        return responce.json()
-      }).then((responceData) => {
-        thisComp.setState({
-          brand_url:responceData.favicon_url
-        })
-      }).catch((error) => {
-        console.log('error', error)
-      })
-  }
-
   componentDidMount () {
-    this.loadBrandImg()
+    if (this.props.loadBrandImg) {
+      this.props.loadBrandImg()
+    }
   }
 
   render () {
-    const {brand_url} = this.state
+    const { brandImageUrl } = this.props
     return (
-      <div className="sticky-top" id="navbar-component" >
-        <MainMenuSection logo={brand_url} />
+      <div className='sticky-top' id='navbar-component' >
+        <MainMenuSection logo={brandImageUrl} />
       </div>
     )
   }
 }
 
-export default Navbar
+const mapStateToProps = (state) => {
+  return {
+    brandImageUrl: state.header.brandImageUrl
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadBrandImg: () => dispatch(actionCreator.loadBrandImg())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

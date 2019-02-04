@@ -1,31 +1,17 @@
-// import 'whatwg-fetch'
-import cookie from 'react-cookies'
 import {
   loadDataAsnc,
   createDataAsnc,
   updatetDataAsnc,
   destroyDataAsnc } from './FetchFuncions'
 
-// export const loadDataAsnc = (dispatch, endpoint, type) => {
-//   let lookupOptions = {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     }
-//   }
-
-//   fetch(endpoint, lookupOptions)
-//     .then((responce) => {
-//       return responce.json()
-//     }).then((responceData) => {
-//       // console.log(responceData)
-//       dispatch({ type: type,
-//         data: responceData
-//       })
-//     }).catch((error) => {
-//       console.log('error', error)
-//     })
-// }
+// LOAD BRAND IMAGE
+export const loadBrandImg = () => {
+  const endpoint = '/api/home/favicon/'
+  const type = 'LOAD_BRAND_IMAGE'
+  return dispatch => {
+    loadDataAsnc(dispatch, endpoint, type)
+  }
+}
 
 // ABOUT US PAGE
 export const loadAboutUsPageData = () => {
@@ -56,7 +42,6 @@ export const loadGalleryPageData = () => {
 
 // GALLERY PAGE IMAGES
 export const loadGalleryImages = (next) => {
-  // let endpoint = '/api/gallery/images/'
   if (next) {
     let endpoint = next
     const type = 'LOAD_GALLERY_IMAGES'
@@ -165,7 +150,7 @@ export const loadCategories = () => {
   return dispatch => {
     loadDataAsnc(dispatch, endpoint, type)
   }
-}// END LOAD PROJECTS
+}// END LOAD PROJECTS CATEGORIES
 
 // PROJECTS SHOW MORE BUTTON
 export const showMoreProjects = (e) => {
@@ -261,47 +246,6 @@ export const loadContacts = () => {
   }
 }// END LOAD DESIGN PRICES CATEGORIES_DESCRIPTION
 
-// CREATE DESIGN ORDER
-export const createOrderAsnc = (dispatch, endpoint, data) => {
-  let csrfToken = cookie.load('csrftoken')
-  if (csrfToken !== undefined) {
-    let lookupOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrfToken
-      },
-      body: JSON.stringify(data),
-      credentials: 'include'
-    }
-
-    fetch(endpoint, lookupOptions)
-      .then((responce) => {
-        return responce.json()
-      }).then((responceData) => {
-        console.log(responceData)
-        if (JSON.stringify(responceData) === JSON.stringify(data)) {
-          console.log('Success')
-          dispatch({ type: 'DESIGN_ORDER_SUCCESS'
-            // data: responceData
-          })
-        } else { console.log('Fail') }
-      }).catch((error) => {
-        console.log('error qwer', error)
-        dispatch({ type: 'DESIGN_ORDER_ERROR'
-          // data: responceData
-        })
-      })
-  }
-}
-
-export const createOrder = (data) => {
-  const endpoint = '/api/design-prices/order_create/'
-  return dispatch => {
-    createOrderAsnc(dispatch, endpoint, data)
-  }
-}// END CREATE DESIGN ORDER
-
 // LOAD GYPSUM PAGE DESCRIPTION
 export const loadGypsumPageDescription = () => {
   const endpoint = '/api/gypsum/'
@@ -314,7 +258,6 @@ export const loadGypsumPageDescription = () => {
 // LOAD GYPSUM PRODUCTS
 export const loadGypsumProducts = (next) => {
   if (next) {
-    console.log('action agter if', next)
     let endpoint = next
     const type = 'LOAD_GYPSUM_PRODUCTS'
     return dispatch => {
@@ -444,9 +387,17 @@ export const deleteProductFromBasket = (id) => {
   }
 }// END DELETE PRODUCT IN BASKET
 
+// DEACTIVATE GYPSUM SUCCESS MASSEGE
+export const deactivateSuccessMassege = (data) => {
+  return dispatch => {
+    dispatch({
+      type: 'DEACTIVATE_GYPSUM_SUCCESS_MASSEGE'
+    })
+  }
+}// END DEACTIVATE GYPSUM SUCCESS MASSEGE
+
 // ACTIVATE CHECKOUT FORM LOADER
 export const checkoutFormLoaderActivate = (data) => {
-  console.log('ACTIVATE_CHECKOUT_FORM_LOADER')
   return dispatch => {
     dispatch({
       type: 'ACTIVATE_CHECKOUT_FORM_LOADER'
@@ -456,7 +407,6 @@ export const checkoutFormLoaderActivate = (data) => {
 
 // CREATE GYPSUM ORDER
 export const createGypsumOrder = (data) => {
-  console.log('createGypsumOrder checkoutContacts', data)
   const endpoint = '/api/orders/order_create/'
   const type = 'CREATE_GYPSUM_ORDER'
   return dispatch => {
@@ -466,7 +416,6 @@ export const createGypsumOrder = (data) => {
 
 // CREATE GYPSUM PRODUCTS IN ORDER
 export const createGypsumProductsInOrder = (data) => {
-  console.log('action createGypsumProductsInOrder')
   const endpoint = '/api/orders/products_in_order_create/'
   const type = 'CREATE_GYPSUM_PRODUCTS_IN_ORDER'
   return dispatch => {
@@ -477,7 +426,6 @@ export const createGypsumProductsInOrder = (data) => {
 // HANDLE GYPSUM CHECKUT FORM INPUT CHANGE
 export const handleInputChange = (event) => {
   event.preventDefault()
-  console.log(event.target.name, event.target.value)
   return dispatch => {
     dispatch({
       type: 'GYPSUM_CONTACTS_ORDER_FORM',
@@ -489,7 +437,6 @@ export const handleInputChange = (event) => {
 
 export const handlePhoneInputChange = (status, value, country) => {
   let phone = `+${country.dialCode}${value}`.replace(/\s/g, '')
-  // console.log(phone)
   return dispatch => {
     dispatch({
       type: 'GYPSUM_CONTACTS_ORDER_FORM',
@@ -503,7 +450,6 @@ export const handlePhoneInputChange = (status, value, country) => {
 // HANDLE DESIGN PROJECT FORM INPUT CHANGE
 export const interiorProjecthandleInputChange = (event) => {
   event.preventDefault()
-  // console.log(event.target.name, event.target.value)
   return dispatch => {
     dispatch({
       type: 'INTERIOR_PROJECT_ORDER_FORM',
@@ -516,7 +462,6 @@ export const interiorProjecthandleInputChange = (event) => {
 
 // HANDLE DESIGN PROJECT FORM INPUT CHANGE
 export const orderNameToState = (d) => {
-  // console.log(d.name, d.value)
   return dispatch => {
     dispatch({
       type: 'INTERIOR_PROJECT_ORDER_FORM',
@@ -529,7 +474,6 @@ export const orderNameToState = (d) => {
 
 export const handleDesignPhoneInputChange = (status, value, country) => {
   let phone = `+${country.dialCode}${value}`.replace(/\s/g, '')
-  // console.log(phone)
   return dispatch => {
     dispatch({
       type: 'INTERIOR_PROJECT_ORDER_FORM',
@@ -560,7 +504,6 @@ export const formLoaderActivate = () => {
 
 // HANDLE design Order Button
 export const designOrderButtonHandler = (order_name) => {
-  // console.log(order_name)
   return dispatch => {
     dispatch({
       type: 'DESIGN_ORDER_BUTTON_HANDLER',

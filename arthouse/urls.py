@@ -23,17 +23,9 @@ from home import views
 
 
 
-urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='react.html')),
+urlpatterns = [ 
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.home, name='home'),
-    url(r'^', include('contacts.urls', namespace='contacts')),
-    url(r'^', include('gallery.urls', namespace='gallery')),
-    url(r'^', include('gypsumProducts.urls', namespace='gypsum')),
-    url(r'^', include('orders.urls', namespace='orders')),
-    url(r'^', include('prices.urls', namespace='prices')),
-    url(r'^', include('projects.urls', namespace='projects')),
-    url(r'^', include('aboutus.urls', namespace='about_us')),
+    
     url(r'^api/about_us/', include('aboutus.api.urls', namespace='about_us-api')),
     url(r'^api/design-prices/', include('prices.api.urls', namespace='design-prices-api')),
     url(r'^api/contacts/', include('contacts.api.urls', namespace='contacts-api')),
@@ -43,7 +35,22 @@ urlpatterns = [
     url(r'^api/gypsum/', include('gypsumProducts.api.urls', namespace='gypsum-api')),
     url(r'^api/orders/', include('orders.api.urls', namespace='orders-api')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    # url(r'(?P<path>.*)', TemplateView.as_view(template_name='react.html')),
+    # url(r'^$', TemplateView.as_view(template_name='react.html')),
+
+    # url(r'^$', views.home, name='home'),
+    # url(r'^', include('contacts.urls', namespace='contacts')),
+    # url(r'^', include('gallery.urls', namespace='gallery')),
+    # url(r'^', include('gypsumProducts.urls', namespace='gypsum')),
+    # url(r'^', include('orders.urls', namespace='orders')),
+    # url(r'^', include('prices.urls', namespace='prices')),
+    # url(r'^', include('projects.urls', namespace='projects')),
+    # url(r'^', include('aboutus.urls', namespace='about_us')),
 ]
 if settings.DEBUG:
-	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
+    url(r'(?P<path>.*)', TemplateView.as_view(template_name='react.html'))
+]

@@ -22,8 +22,8 @@ class GypsumCategory(models.Model):
         return reverse('gypsum:gypsum_in_category', kwargs={'id': self.id})
 
     class Meta:
-        verbose_name = 'Категорія ліпнини'
-        verbose_name_plural = 'Категорії ліпнини'
+        verbose_name = 'Категорія товару'
+        verbose_name_plural = 'Категорії товарів'
 
 
 class GypsumProduct(models.Model):
@@ -46,8 +46,8 @@ class GypsumProduct(models.Model):
         return reverse('gypsum:gypsum_detail', kwargs={'id': self.id})
 
     class Meta:
-        verbose_name = 'Ліпнина'
-        verbose_name_plural = 'Ліпнина'
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товари'
 
 
 class GypsumImage(models.Model):
@@ -69,8 +69,8 @@ class GypsumImage(models.Model):
         return self.gypsum_product.name
 
     class Meta:
-        verbose_name = 'Фото ліпнини'
-        verbose_name_plural = 'Фотки ліпнини'
+        verbose_name = 'Фото товару'
+        verbose_name_plural = 'Фотки товарів'
 
 
 class PageGypsumDescription(models.Model):
@@ -87,5 +87,5 @@ class PageGypsumDescription(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Опис сторінки ліпнина'
-        verbose_name_plural = 'Опис сторінки ліпнина'
+        verbose_name = 'Опис сторінки магазину'
+        verbose_name_plural = 'Опис сторінки магазину'

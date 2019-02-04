@@ -1,34 +1,17 @@
 import React, { Component } from 'react'
 import AnimateHeight from 'react-animate-height'
+import MobileBasket from '../gypsum/cart/MobileBasket'
 
 class PageDescription extends Component {
-  // constructor (props) {
-  //   super(props)
-  //   this.showMoreHandle = this.showMoreHandle.bind(this)
-  // }
-
-  // // state = {
-  // //   showMore: false
-  // // }
-
-  // showMoreHandle (e) {
-  //   e.preventDefault()
-  //   this.props.showMoreButtonToggle()
-  //   // this.setState({
-  //   //   showMore: !showMore
-  //   // })
-  // }
-
   render () {
-    const { title, short_description, description, showMore } = this.props
-
-    // const {showMore} = this.state
+    const { title, short_description, description, showMore, shop } = this.props
     const toggleOpenedClass = showMore ? 'more-link opened' : 'more-link'
     const toggleLinkedText = showMore ? 'Згорнути' : 'Детальніше'
     return (
       <div className='row'>
         <div className='col-md-12'>
           { title ? <h1 className='text-center page__title'>{ title }</h1> : ''}
+          { shop ? <div className='d-block d-md-none d-xl-none'><MobileBasket /></div> : ''}
           { short_description ? <p dangerouslySetInnerHTML={{ __html: short_description }} /> : ''}
 
           { description

@@ -1,165 +1,4 @@
-import { createGypsumProductsInOrder } from '../actions/actions'
-
-const initialState = {
-  logoImage: null,
-  homePage: {
-    tab_title: null,
-    title: null,
-    short_description: null,
-    description: null,
-    carousel_imgs: null,
-    last_projects: null,
-    showMore: false,
-    loaded: false
-  },
-  aboutUsPage: {
-    tab_title: null,
-    title: null,
-    short_description: null,
-    description: null,
-    showMore: false,
-    loaded: false
-  },
-  projects: {
-    projectsPage: {
-      tab_title: null,
-      title: null,
-      short_description: null,
-      description: null,
-      projects: null,
-      showMore: false,
-      loaded: false
-    },
-    categoryDetail: {
-      tab_title: null,
-      title: null,
-      short_description: null,
-      description: null,
-      projects: null,
-      showMore: false
-    },
-    projectDetail: {
-      tab_title: null,
-      name: null,
-      short_description: null,
-      description: null,
-      categories: null,
-      project_images: null,
-      project_thumbnail_images: null,
-      main_image_url: null,
-      category_id: null,
-      category_name: null,
-      showMore: false
-    },
-    categories: {
-      categories: null
-    },
-    projects_detail: []
-  },
-  galleryPage: {
-    tab_title: null,
-    title: null,
-    short_description: null,
-    description: null,
-    images: [],
-    next: '/api/gallery/images/',
-    previous_results: null,
-    previous: null,
-    showMore: false,
-    loaded: false
-  },
-  gypsum: {
-    gypsumPage: {
-      tab_title: null,
-      title: null,
-      short_description: null,
-      description: null,
-      products: [],
-      previous_results: null,
-      next: '/api/gypsum/products-list/',
-      form_loader: true,
-      showMore: false
-    },
-    categoryDetail: {
-      tab_title: null,
-      title: null,
-      short_description: null,
-      description: null,
-      products: null,
-      next: null,
-      loaded_more: true,
-      showMore: false
-    },
-    gypsumDetail: {
-      id: null,
-      tab_title: null,
-      name: null,
-      price: null,
-      short_description: null,
-      domentions: null,
-      categories: null,
-      category_id: null,
-      category_name: null,
-      product_images: null,
-      product_thumbnail_images: null,
-      main_image_url: null,
-      gypsum_3d_model: null,
-      gypsum_products_by_catogory: null
-    },
-    categories: {
-      categories: null
-    },
-    basket: {
-      products_in_basket: [],
-      total_order_price: null
-    },
-    checkoutContacts: {
-      name: null,
-      phone: null,
-      email: null,
-      comments: null,
-      status: 1
-    },
-    order: {
-      id: null
-    },
-    form_loader: true,
-    pfone_error: false,
-    products_detail: []
-  },
-  pricesPage: {
-    tab_title: null,
-    title: null,
-    short_description: null,
-    description: null,
-    categories: null,
-    categoriesDescription: null,
-    showMore: false,
-    pricesPageLoaded: false,
-    success_form: false,
-    order_form: false,
-    form_loader: true,
-    pfone_error: false,
-    order: {
-      order_name: null,
-      client_name: null,
-      phone_number: null,
-      email: null,
-      coment: null
-    }
-  },
-  contactsPage: {
-    tab_title: null,
-    address_title: null,
-    address: null,
-    email_title: null,
-    email: null,
-    title_phone_for_customers: null,
-    phone_for_customers: null,
-    title_phone_for_partners: null,
-    phone_for_partners: null
-  }
-}
+import { initialState } from './initalState.js'
 
 const updateTotalPriceInBasket = (newState, updatedProductsList) => {
   let total_order_price = 0
@@ -175,6 +14,12 @@ const reducer = (state = initialState, action) => {
   const newState = { ...state }
 
   switch (action.type) {
+    case 'LOAD_BRAND_IMAGE':
+      newState.header = { ...newState.header,
+        brandImageUrl: action.data.favicon_url
+      }
+      break
+
     case 'LOAD_ABOUT_US':
       newState.aboutUsPage = { ...newState.aboutUsPage,
         tab_title: action.data.tab_title,
@@ -202,15 +47,12 @@ const reducer = (state = initialState, action) => {
 
     case 'LOAD_GALLERY_IMAGES':
       if (newState.galleryPage.next && newState.galleryPage.previous_results !== action.data.results) {
-        console.log('previous_results', newState.galleryPage.previous_results)
-        console.log('action.data.results', action.data.results)
         newState.galleryPage = { ...newState.galleryPage,
           next: action.data.next,
           images: newState.galleryPage.images.concat(action.data.results),
           previous_results: action.data.results
         }
       }
-      console.log(newState.galleryPage.images)
       break
 
     case 'GALLERY_SHOW_MORE_BUTTON':
@@ -244,7 +86,6 @@ const reducer = (state = initialState, action) => {
       newState.homePage = { ...newState.homePage,
         carousel_imgs: action.data
       }
-      // console.log(newState.homePage.carousel_imgs)
       break
 
     case 'HOME_SHOW_MORE_BUTTON':
@@ -309,20 +150,7 @@ const reducer = (state = initialState, action) => {
       break
 
     case 'LOAD_PROJECT_DETAIL':
-      // newState.projects.projectDetail = { ...newState.projects.projectDetail,
-      //   tab_title: action.data.tab_title,
-      //   name: action.data.name,
-      //   short_description: action.data.short_description,
-      //   description: action.data.description,
-      //   project_images: action.data.project_images,
-      //   project_thumbnail_images: action.data.project_thumbnail_images,
-      //   main_image_url: action.data.main_image_url,
-      //   category_id: action.data.category,
-      //   category_name: action.data.category_name
-      // }
-
       newState.projects.projects_detail = [ ...newState.projects.projects_detail, action.data ]
-      // console.log('newState.projects.projects_detail', newState.projects.projects_detail)
       break
 
     case 'PROJECT_DETAIL_SHOW_MORE_BUTTON':
@@ -363,7 +191,6 @@ const reducer = (state = initialState, action) => {
       newState.pricesPage.order = { ...newState.pricesPage.order,
         [action.key]: action.value
       }
-      console.log('order', newState.pricesPage.order)
       break
 
     case 'CREATE_DESIGN_ORDER':
@@ -379,7 +206,6 @@ const reducer = (state = initialState, action) => {
           form_loader: true,
           pfone_error: true
         }
-        console.log('Order Error!')
       }
       break
 
@@ -438,8 +264,6 @@ const reducer = (state = initialState, action) => {
 
     case 'LOAD_GYPSUM_PRODUCTS':
       if (newState.gypsum.gypsumPage.next && newState.gypsum.gypsumPage.previous_results !== action.data.results) {
-        console.log('previous_results', newState.gypsum.gypsumPage.previous_results)
-        console.log('action.data.results', action.data.results)
         newState.gypsum.gypsumPage = { ...newState.gypsum.gypsumPage,
           next: action.data.next,
           products: newState.gypsum.gypsumPage.products.concat(action.data.results),
@@ -468,17 +292,6 @@ const reducer = (state = initialState, action) => {
       }
       break
 
-    case 'LOAD_PAGE_AND_PRODUCTS_BY_CATEGORY':
-      newState.gypsum.categoryDetail = { ...newState.gypsum.categoryDetail,
-        tab_title: action.data.tab_title,
-        title: action.data.title,
-        short_description: action.data.short_description,
-        description: action.data.description,
-        // products: action.data.products,
-        gypsum_page_title: action.data.gypsum_page_title
-      }
-      break
-
     case 'LOAD_GYPSUM_PAGE_BY_CATEGORY':
       newState.gypsum.categoryDetail = { ...newState.gypsum.categoryDetail,
         [action.data.id]: {
@@ -493,25 +306,14 @@ const reducer = (state = initialState, action) => {
 
     case 'LOAD_PRODUCTS_BY_CATEGORY':
       let category_id = action.data.results[0].category
-      console.log('category_id', category_id)
-      console.log('newState.gypsum.categoryDetail[category_id', newState.gypsum.categoryDetail[category_id])
       if (!newState.gypsum.categoryDetail[category_id].products) {
-        console.log('add products')
         newState.gypsum.categoryDetail = { ...newState.gypsum.categoryDetail,
+          loaded_more: true,
           [category_id]: { ...newState.gypsum.categoryDetail[category_id],
             products: action.data.results,
-            next: action.data.next,
-            loaded_more: true
+            next: action.data.next
           }
         }
-      } else {
-        newState.gypsum.categoryDetail[category_id] = { ...newState.gypsum.categoryDetail[category_id],
-          next: action.data.next,
-          loaded_more: true
-        }
-        newState.gypsum.categoryDetail[category_id].products = [ ...newState.gypsum.categoryDetail[category_id].products,
-          ...action.data.results
-        ]
       }
       break
 
@@ -521,19 +323,18 @@ const reducer = (state = initialState, action) => {
         ...action.data.results
       ]
       newState.gypsum.categoryDetail = { ...newState.gypsum.categoryDetail,
+        loaded_more: true,
         [cat_id]: { ...newState.gypsum.categoryDetail[cat_id],
-          next: action.data.next,
-          loaded_more: true
+          next: action.data.next
         }
-
       }
-      console.log('add more products', newState.gypsum.categoryDetail[cat_id])
       break
 
     case 'CATEGORY_ACTIVATE_GYPSUM_LOAD_MORE':
       newState.gypsum.categoryDetail = { ...newState.gypsum.categoryDetail,
         loaded_more: false
       }
+      console.log('newState.gypsum.categoryDetail', newState.gypsum.categoryDetail)
       break
 
     case 'GYPSUM_CATEGORY_DETAIL_SHOW_MORE_BUTTON':
@@ -543,25 +344,7 @@ const reducer = (state = initialState, action) => {
       break
 
     case 'LOAD_PRODUCT_DETAIL':
-      // newState.gypsum.gypsumDetail = { ...newState.gypsum.gypsumDetail,
-      //   id: action.data.id,
-      //   tab_title: action.data.tab_title,
-      //   gypsum_page_title: action.data.gypsum_page_title,
-      //   name: action.data.name,
-      //   price: action.data.price,
-      //   short_description: action.data.short_description,
-      //   domentions: action.data.domentions,
-      //   categories: action.data.categories,
-      //   category_id: action.data.category_id,
-      //   category_name: action.data.category_name,
-      //   product_images: action.data.product_images,
-      //   product_thumbnail_images: action.data.product_thumbnail_images,
-      //   main_image_url: action.data.main_image_url,
-      //   gypsum_3d_model: action.data.gypsum_3d_model,
-      //   gypsum_products_by_catogory: action.data.gypsum_products_by_catogory
-      // }
       newState.gypsum.products_detail = [ ...newState.gypsum.products_detail, action.data ]
-      // console.log('newState.gypsum.products_detail', newState.gypsum.products_detail)
       break
 
     case 'LOAD_PRODUCTS_IN_BASKET':
@@ -572,8 +355,6 @@ const reducer = (state = initialState, action) => {
       break
 
     case 'ADD_PRODUCT_TO_BASKET':
-      // console.log('action.data', action.data)
-      // console.log('newState.gypsum.basket', newState.gypsum.basket)
       newState.gypsum.basket = { ...newState.gypsum.basket,
         products_in_basket: [...newState.gypsum.basket.products_in_basket, action.data]
       }
@@ -606,14 +387,12 @@ const reducer = (state = initialState, action) => {
       }
 
       updateTotalPriceInBasket(newState, updatedProductsList)
-      // console.log('total_order_price', total_order_price)
       break
 
     case 'GYPSUM_CONTACTS_ORDER_FORM':
       newState.gypsum.checkoutContacts = { ...newState.gypsum.checkoutContacts,
         [action.key]: action.value
       }
-      // console.log('checkoutContacts', newState.gypsum.checkoutContacts)
       break
 
     case 'ACTIVATE_CHECKOUT_FORM_LOADER':
@@ -627,10 +406,11 @@ const reducer = (state = initialState, action) => {
         newState.gypsum.order = { ...newState.gypsum.order,
           id: action.data.id
         }
-        newState.gypsum.pfone_error = { ...newState.gypsum.pfone_error,
+        newState.gypsum = { ...newState.gypsum,
           pfone_error: false
         }
       } else {
+        console.log('newState.gypsum.pfone_error', action.data.id)
         newState.gypsum.pfone_error = { ...newState.gypsum.pfone_error,
           pfone_error: true
         }
@@ -638,27 +418,6 @@ const reducer = (state = initialState, action) => {
           form_loader: true
         }
       }
-      // newState.gypsum = { ...newState.gypsum,
-      //   form_loader: false
-      // }
-      // console.log('action.id', action.data.id)
-      // console.log(newState.gypsum.order.id)
-      // if (newState.gypsum.order.id) {
-      //   const order_id = newState.gypsum.order.id
-      //   const products_in_basket = newState.gypsum.basket.products_in_basket
-      //   const data = products_in_basket.map((i) => {
-      // console.log('product.total_price', total_price)
-      //   return {
-      //     order: order_id,
-      //     product: i.product,
-      //     nmb: i.nmb,
-      //     price_pre_item: i.price_pre_item,
-      //     total_price: i.total_price
-      //   }
-      // })
-      // console.log('createGypsumProductsInOrder', data)
-      // createGypsumProductsInOrder(data)
-      // }
       break
 
     case 'CREATE_GYPSUM_PRODUCTS_IN_ORDER':
@@ -669,9 +428,15 @@ const reducer = (state = initialState, action) => {
         products_in_basket: []
       }
       newState.gypsum = { ...newState.gypsum,
+        order_success: true,
         form_loader: true
       }
-      // console.log('CREATE_GYPSUM_PRODUCTS_IN_ORDER products', newState.gypsum.basket.products_in_basket)
+      break
+
+    case 'DEACTIVATE_GYPSUM_SUCCESS_MASSEGE':
+      newState.gypsum = { ...newState.gypsum,
+        order_success: false
+      }
       break
 
     default:
