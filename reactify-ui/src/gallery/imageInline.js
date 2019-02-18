@@ -13,7 +13,7 @@ class ImageInline extends Component {
     return (
       <div className='img-div'>
         <a data-fancybox='gallery'
-          data-options='{"buttons": ["zoom", "slideShow", "fullScreen", "share","close"]}'
+          data-options='{"buttons": ["zoom", "slideShow", "fullScreen", "close"]}'
           data-caption={image_project_name} href={image_url}
           className='outline-focus-none'>
           <img onLoad={this.onLoadHandler} src={image_thumbnail_url} alt='' className='outline-focus-none thumbnail-img img-fluid img-zoom' />

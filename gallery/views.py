@@ -33,3 +33,14 @@ def gallery(request):
 		}
 
 	return render(request, 'gallery/gallery.html', context)
+
+def gallery_react(request):
+	gallery = Gallery.objects.filter(is_active=True)[0]
+
+	tab_title = gallery.tab_title
+
+	context = {
+			'tab_title': tab_title,
+		}
+
+	return render(request, 'react/gallery_react.html', context)

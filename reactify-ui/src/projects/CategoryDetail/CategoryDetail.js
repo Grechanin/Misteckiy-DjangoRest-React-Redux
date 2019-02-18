@@ -17,74 +17,13 @@ class CategoryDetail extends Component {
     super(props)
     this.state = {
           loaded: false,
+          category_name: null
       }
   }
 
   projectsCategoryDetailLoaded = () => {
     this.setState({loaded:true})
   }
-
-  //   state = {
-  //       tab_title: null,
-  //       title: null,
-  //       short_description: null,
-  //       description: null,
-  //       categories: null,
-  //       projects: null,
-  //   }
-
-  //   loadCategories () {
-  //     let thisComp = this
-  //     let endpoint = '/api/projects/categories/'
-
-  //     let lookupOptions = {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       }
-  //     }
-  // // console.log(endpoint)
-
-  //     fetch(endpoint, lookupOptions)
-  //       .then((responce) => {
-  //         return responce.json()
-  //       }).then((responceData) => {
-  //         thisComp.setState({
-  //           categories: responceData,
-  //         })
-  //       }).catch((error) => {
-  //         console.log('error', error)
-  //       })
-  //   }
-
-  // loadPageAndProjects (id) {
-  //   let thisComp = this
-  //   let endpoint = `/api/projects/categories-detail/${id}`
-
-  //   let lookupOptions = {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   }
-
-  //   fetch(endpoint, lookupOptions)
-  //     .then((responce) => {
-  //       return responce.json()
-  //     }).then((responceData) => {
-  //       console.log(responceData)
-  //       thisComp.setState({
-  //         title: responceData.title,
-  //         tab_title: responceData.tab_title,
-  //         short_description: responceData.short_description,
-  //         description: responceData.description,
-  //         projects: responceData.projects,
-  //       })
-  //       document.title = this.state.tab_title
-  //     }).catch((error) => {
-  //       console.log('error', error)
-  //     })
-  // }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.match.params.id !== this.props.match.params.id) {
@@ -99,6 +38,14 @@ class CategoryDetail extends Component {
       const { id } = this.props.match.params
       this.props.loadPageAndProjectsByCategory(id)
     }
+  }
+
+  componentDidUpdate (){
+    this.props.categories.forEach((cat) => {
+      if (cat.id.toString()===this.props.match.params.id && cat.name !== this.state.category_name) {
+         this.setState({...this.state, category_name: cat.name})
+      }
+    })
   }
 
   render () {
@@ -118,7 +65,7 @@ class CategoryDetail extends Component {
           : '' }
           <Loader loaded={this.state.loaded} color='#e7e0e0' />
         <main>
-          <Breadcrumb title={title} />
+          <Breadcrumb title={this.state.category_name} />
           <div className='page__container'>
             <div className='container'>
               <PageDescription title={title}

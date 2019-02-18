@@ -16,3 +16,16 @@ def about_us(request):
 		}
 
 	return render(request, 'about_us/about_us.html', context)
+
+
+def about_us_react(request):
+	about_us = AboutUs.objects.filter(is_active=True)[0]
+
+	tab_title = about_us.tab_title
+	short_description = about_us.short_description
+	context = {
+			'tab_title': tab_title,
+			'short_description': short_description,
+		}
+
+	return render(request, 'react/about_us.html', context)

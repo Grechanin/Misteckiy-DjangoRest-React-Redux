@@ -23,6 +23,16 @@ def projects(request):
 
 	return render(request, 'projects/projects.html', context)
 
+def projects_react(request):
+
+	title_description_model = PageProjectsDescription.objects.filter(is_active=True)[0]
+	tab_title = title_description_model.tab_title
+	context = {
+			'tab_title': tab_title,
+		}
+
+	return render(request, 'react/projects/projects_react.html', context)
+
 def project_detail(request, id=None):
 	categories = ProjectCategory.objects.filter(is_active=True)
 	project = get_object_or_404(Project, id=id)
@@ -59,3 +69,28 @@ def projects_in_category(request, id=None):
 		}
 
 	return render(request, 'projects/projects_in_category.html', context)
+
+def projects_in_category_react(request, id=None):
+
+	title_description_model = PageProjectsDescription.objects.filter(is_active=True)[0]
+	tab_title = title_description_model.tab_title
+	context = {
+			'tab_title': tab_title,
+		}
+
+	return render(request, 'react/projects/projects_in_category_react.html', context)
+
+def project_detail_react(request, id=None):
+	project = get_object_or_404(Project, id=id)
+	main_image_url = None
+	for img in project.projectimage_set.all():
+		if img.is_main:
+			main_image_url = img.image.url
+
+	context = {
+
+			'project': project,
+			'main_image_url':main_image_url,
+		}
+
+	return render(request, 'react/projects/project_detail_react.html', context)

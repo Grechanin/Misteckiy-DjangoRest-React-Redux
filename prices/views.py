@@ -28,6 +28,16 @@ def prices(request):
 
     return render(request, 'prices/prices.html', context)
 
+def prices_react(request):
+    prices = Prices.objects.filter(is_active=True)[0]
+
+    tab_title = prices.tab_title
+    context = {
+            'tab_title': tab_title,
+            }
+
+    return render(request, 'react/prices_react.html', context)
+
 
 class OrderFormView(FormView):
     form_class = OrderForm

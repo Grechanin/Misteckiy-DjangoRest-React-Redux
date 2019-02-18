@@ -12,3 +12,15 @@ def contacts(request):
 		}
 
 	return render(request, 'contacts/contacts.html', context)
+
+def contacts_react(request):
+	contacts = Contacts.objects.filter(is_active=True)[0]
+	tab_title = contacts.tab_title
+
+	
+	context = {
+			# 'contacts': contacts,
+			'tab_title': tab_title,
+		}
+
+	return render(request, 'react/contacts_react.html', context)

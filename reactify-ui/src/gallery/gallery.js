@@ -50,26 +50,26 @@ class Gallery extends Component {
 
 
   onScrollHandler = () => {
-    console.log('scrolling')
+    // console.log('scrolling')
     if (this.scroller) {
-      console.log('scrollTop', this.scroller.scrollTop)
+      // console.log('scrollTop', this.scroller.scrollTop)
     }
   }
 
   handleScroll(event) {
   
           let contantHeight = this.refs.scroller.offsetHeight
-          console.log('contantHeight',contantHeight)
+          // console.log('contantHeight',contantHeight)
           let yOffset = window.pageYOffset
-          console.log('yOffset',yOffset)
+          // console.log('yOffset',yOffset)
           let innerHeight = window.innerHeight
-          console.log('innerHeight',innerHeight)
+          // console.log('innerHeight',innerHeight)
           let y = window.innerHeight + yOffset
-          console.log('y',y)
+          // console.log('y',y)
           let next = this.props.next
           if(y > contantHeight && y < contantHeight+20 && next) {
             next = null   
-            console.log(this.props.next)
+            // console.log(this.props.next)
             this.props.loadGalleryImages(this.props.next)
           }
   };
@@ -100,7 +100,7 @@ componentWillUnmount() {
     let chankifiedImages = null
 
     if (images.length !== 0) {
-      console.log(images.length)
+      // console.log(images.length)
       chankifiedImages = this.chunkify(images, 4, 1)
     }
 
@@ -108,7 +108,7 @@ componentWillUnmount() {
       <div className='main-container' ref={(r)=>this.r=r} >
         <Navbar />
         <Loader loaded={loaded} color='#e7e0e0' />
-        <Breadcrumb title={tab_title} />
+        <Breadcrumb title={title} />
         {chankifiedImages !== null
           ? <div onScroll={this.onScrollHandler} ref='scroller' >
             <MainContent title={title}

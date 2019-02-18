@@ -3,7 +3,10 @@ from .views import *
 
 
 urlpatterns = [
-    url(r'^gypsum_products/$', gypsum_products, name='gypsum_products'),
-    url(r'^gypsum_product/(?P<id>\d+)/$', gypsum_detail, name='gypsum_detail'),
-    url(r'^gypsum_category/(?P<id>\d+)/$', gypsum_in_category, name='gypsum_in_category'),
+    url(r'^shop/$', products_react, name='shop'),
+    url(r'^gypsum_products/$', products_react, name='gypsum_products'),
+    url(r'^gypsum_product/(?P<id>\d+)/$', product_detail_react, name='gypsum_detail'),
+    url(r'^product/(?P<id>\d+)/$', product_detail_react, name='product_detail'),
+    url(r'^shop-category/(?P<id>\d+)/$', product_in_category_react, name='gypsum_in_category'),
+    url(r'^gypsum_category/(?P<id>\d+)/$', product_in_category_react, name='gypsum_in_category'),
 ]

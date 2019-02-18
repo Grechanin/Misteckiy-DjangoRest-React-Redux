@@ -1221,3 +1221,7 @@ svg {
     position: relative;
     padding-top: 66px;
 }
+
+.image-gallery-right-nav:focus {
+    outline: 0;
+}

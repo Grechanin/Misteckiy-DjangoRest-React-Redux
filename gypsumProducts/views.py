@@ -22,7 +22,19 @@ def gypsum_products(request):
 			'gypsum_products': gypsum_products,
 		}
 
+	# return render(request, 'react/shop/products_react.html', context)
 	return render(request, 'gypsum/gypsum_products.html', context)
+
+def products_react(request):
+	title_description_model = PageGypsumDescription.objects.filter(is_active=True)[0]
+	tab_title = title_description_model.tab_title
+
+
+	context = {
+			'tab_title': tab_title,
+		}
+
+	return render(request, 'react/shop/products_react.html', context)
 
 def gypsum_detail(request, id=None):
 	categories = GypsumCategory.objects.filter(is_active=True)
@@ -63,3 +75,32 @@ def gypsum_in_category(request, id=None):
 		}
 
 	return render(request, 'gypsum/gypsum_in_category.html', context)
+
+def product_in_category_react(request, id=None):
+	category = get_object_or_404(GypsumCategory, id=id)
+	tab_title = category.tab_title
+	context = {
+			'tab_title': tab_title,
+		}
+
+	return render(request, 'react/shop/product_in_category_react.html', context)
+
+
+def product_detail_react(request, id=None):
+	gypsum_product = get_object_or_404(GypsumProduct, id=id)
+	tab_title = gypsum_product.tab_title
+
+	main_image_url = None
+	for img in gypsum_product.gypsumimage_set.all():
+		if img.is_main:
+			main_image_url = img.image.url
+
+	context = {
+
+			'tab_title': tab_title,
+			'main_image_url':main_image_url,
+		}
+	print(tab_title)
+	print(main_image_url)
+
+	return render(request, 'react/shop/product_detail_react.html', context)

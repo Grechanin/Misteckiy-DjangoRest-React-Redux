@@ -258,7 +258,7 @@ export const loadGypsumPageDescription = () => {
 // LOAD GYPSUM PRODUCTS
 export const loadGypsumProducts = (next) => {
   if (next) {
-    let endpoint = next
+    const endpoint = next
     const type = 'LOAD_GYPSUM_PRODUCTS'
     return dispatch => {
       loadDataAsnc(dispatch, endpoint, type)
